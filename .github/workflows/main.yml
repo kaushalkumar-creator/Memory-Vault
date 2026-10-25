@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -24,6 +25,7 @@ jobs:
       - name: Create Android project
         shell: bash
         run: |
+
           mkdir -p app/src/main/java/com/kaushal/memoryvault
           mkdir -p app/src/main/res/values
           mkdir -p app/src/main/res/drawable
@@ -39,6 +41,7 @@ jobs:
 
           dependencyResolutionManagement {
               repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
               repositories {
                   google()
                   mavenCentral()
@@ -49,6 +52,7 @@ jobs:
           include(":app")
           EOF
 
+
           cat > build.gradle.kts <<'EOF'
           plugins {
               id("com.android.application") version "8.9.2" apply false
@@ -57,11 +61,13 @@ jobs:
           }
           EOF
 
+
           cat > gradle.properties <<'EOF'
           org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
           android.useAndroidX=true
           kotlin.code.style=official
           EOF
+
 
           cat > app/build.gradle.kts <<'EOF'
           plugins {
@@ -72,14 +78,17 @@ jobs:
 
           android {
               namespace = "com.kaushal.memoryvault"
+
               compileSdk = 35
 
               defaultConfig {
                   applicationId = "com.kaushal.memoryvault"
+
                   minSdk = 24
                   targetSdk = 35
-                  versionCode = 2
-                  versionName = "1.1"
+
+                  versionCode = 3
+                  versionName = "1.2"
               }
 
               buildTypes {
@@ -103,7 +112,9 @@ jobs:
           }
 
           dependencies {
-              val composeBom = platform("androidx.compose:compose-bom:2024.12.01")
+
+              val composeBom =
+                  platform("androidx.compose:compose-bom:2024.12.01")
 
               implementation(composeBom)
 
@@ -113,12 +124,15 @@ jobs:
 
               implementation("androidx.compose.ui:ui")
               implementation("androidx.compose.ui:ui-tooling-preview")
+
               implementation("androidx.compose.material3:material3")
+
               implementation("androidx.compose.material:material-icons-extended")
 
               debugImplementation("androidx.compose.ui:ui-tooling")
           }
           EOF
+
 
           cat > app/src/main/AndroidManifest.xml <<'EOF'
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -147,8 +161,10 @@ jobs:
           </manifest>
           EOF
 
+
           cat > app/src/main/res/values/styles.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
+
           <resources>
 
               <style
@@ -156,18 +172,28 @@ jobs:
                   parent="Theme.SplashScreen">
 
                   <item name="windowSplashScreenBackground">#F7F7F5</item>
-                  <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
-                  <item name="postSplashScreenTheme">@style/Theme.MemoryVault</item>
+
+                  <item name="windowSplashScreenAnimatedIcon">
+                      @drawable/ic_launcher
+                  </item>
+
+                  <item name="postSplashScreenTheme">
+                      @style/Theme.MemoryVault
+                  </item>
 
               </style>
+
 
               <style
                   name="Theme.MemoryVault"
                   parent="android:style/Theme.Material.Light.NoActionBar">
 
                   <item name="android:fontFamily">sans</item>
+
                   <item name="android:windowLightStatusBar">true</item>
+
                   <item name="android:statusBarColor">#F7F7F5</item>
+
                   <item name="android:navigationBarColor">#FFFFFF</item>
 
               </style>
@@ -175,8 +201,10 @@ jobs:
           </resources>
           EOF
 
+
           cat > app/src/main/res/drawable/ic_launcher.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
+
           <vector
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:width="108dp"
@@ -184,56 +212,102 @@ jobs:
               android:viewportWidth="108"
               android:viewportHeight="108">
 
+              <!-- Dark circular background -->
               <path
                   android:fillColor="#171717"
-                  android:pathData="M54,4 A50,50 0,1 0,54 104 A50,50 0,1 0,54 4" />
+                  android:pathData="
+                      M54,4
+                      A50,50 0,1 0,54,104
+                      A50,50 0,1 0,54,4" />
 
+              <!-- Vault body -->
               <path
                   android:fillColor="#F7F7F5"
-                  android:pathData="M31,34 C31,30 34,27 38,27 L70,27 C74,27 77,30 77,34 L77,74 C77,78 74,81 70,81 L38,81 C34,81 31,78 31,74 Z" />
+                  android:pathData="
+                      M30,34
+                      C30,29 34,26 39,26
+                      L69,26
+                      C74,26 78,29 78,34
+                      L78,74
+                      C78,79 74,82 69,82
+                      L39,82
+                      C34,82 30,79 30,74
+                      Z" />
 
+              <!-- Vault top -->
               <path
                   android:fillColor="#171717"
-                  android:pathData="M36,39 L72,39 L72,46 L36,46 Z" />
+                  android:pathData="
+                      M36,37
+                      L72,37
+                      L72,44
+                      L36,44
+                      Z" />
 
+              <!-- Vault dial -->
               <path
                   android:fillColor="#171717"
-                  android:pathData="M54,46 C48,46 44,51 44,57 C44,63 48,68 54,68 C60,68 64,63 64,57 C64,51 60,46 54,46 Z" />
+                  android:pathData="
+                      M54,46
+                      C47,46 42,51 42,57
+                      C42,64 47,69 54,69
+                      C61,69 66,64 66,57
+                      C66,51 61,46 54,46
+                      Z" />
 
+              <!-- Dial center -->
               <path
                   android:fillColor="#F7F7F5"
-                  android:pathData="M54,51 C51,51 49,54 49,57 C49,60 51,63 54,63 C57,63 59,60 59,57 C59,54 57,51 54,51 Z" />
+                  android:pathData="
+                      M54,51
+                      C51,51 49,54 49,57
+                      C49,60 51,63 54,63
+                      C57,63 59,60 59,57
+                      C59,54 57,51 54,51
+                      Z" />
 
+              <!-- Handle -->
               <path
                   android:fillColor="#171717"
-                  android:pathData="M66,55 L76,55 L76,63 L66,63 C64,63 62,61 62,59 C62,57 64,55 66,55 Z" />
+                  android:pathData="
+                      M66,54
+                      L78,54
+                      L78,62
+                      L66,62
+                      C63,62 61,60 61,58
+                      C61,56 63,54 66,54
+                      Z" />
 
           </vector>
           EOF
 
+
       - name: Create MainActivity
         shell: bash
         run: |
+
           cat > app/src/main/java/com/kaushal/memoryvault/MainActivity.kt <<'EOF'
+
           package com.kaushal.memoryvault
 
-          import android.animation.ObjectAnimator
+          import android.animation.Animator
+          import android.animation.AnimatorListenerAdapter
           import android.animation.AnimatorSet
+          import android.animation.ObjectAnimator
           import android.os.Bundle
           import android.os.Handler
           import android.os.Looper
           import android.view.View
+
           import androidx.activity.ComponentActivity
           import androidx.activity.compose.setContent
-          import androidx.compose.animation.AnimatedContent
+
+          import androidx.compose.animation.Crossfade
           import androidx.compose.animation.AnimatedVisibility
           import androidx.compose.animation.fadeIn
-          import androidx.compose.animation.fadeOut
-          import androidx.compose.animation.slideInVertically
-          import androidx.compose.animation.slideOutVertically
-          import androidx.compose.animation.core.FastOutSlowInEasing
           import androidx.compose.animation.core.animateFloatAsState
           import androidx.compose.animation.core.tween
+
           import androidx.compose.foundation.clickable
           import androidx.compose.foundation.layout.Arrangement
           import androidx.compose.foundation.layout.Box
@@ -245,12 +319,18 @@ jobs:
           import androidx.compose.foundation.layout.height
           import androidx.compose.foundation.layout.padding
           import androidx.compose.foundation.layout.size
+
           import androidx.compose.foundation.lazy.LazyColumn
           import androidx.compose.foundation.lazy.items
+
           import androidx.compose.foundation.shape.RoundedCornerShape
+
           import androidx.compose.material.icons.Icons
           import androidx.compose.material.icons.outlined.Add
           import androidx.compose.material.icons.outlined.ArrowForward
+          import androidx.compose.material.icons.outlined.AutoAwesome
+          import androidx.compose.material.icons.outlined.BookmarkBorder
+          import androidx.compose.material.icons.outlined.Close
           import androidx.compose.material.icons.outlined.Favorite
           import androidx.compose.material.icons.outlined.FavoriteBorder
           import androidx.compose.material.icons.outlined.GridView
@@ -259,9 +339,7 @@ jobs:
           import androidx.compose.material.icons.outlined.Movie
           import androidx.compose.material.icons.outlined.Person
           import androidx.compose.material.icons.outlined.Search
-          import androidx.compose.material.icons.outlined.AutoAwesome
-          import androidx.compose.material.icons.outlined.Close
-          import androidx.compose.material.icons.outlined.BookmarkBorder
+
           import androidx.compose.material3.AlertDialog
           import androidx.compose.material3.Button
           import androidx.compose.material3.Card
@@ -269,7 +347,6 @@ jobs:
           import androidx.compose.material3.FloatingActionButton
           import androidx.compose.material3.Icon
           import androidx.compose.material3.IconButton
-          import androidx.compose.material3.MaterialTheme
           import androidx.compose.material3.NavigationBar
           import androidx.compose.material3.NavigationBarItem
           import androidx.compose.material3.OutlinedTextField
@@ -277,6 +354,7 @@ jobs:
           import androidx.compose.material3.Surface
           import androidx.compose.material3.Text
           import androidx.compose.material3.TextButton
+
           import androidx.compose.runtime.Composable
           import androidx.compose.runtime.LaunchedEffect
           import androidx.compose.runtime.getValue
@@ -284,18 +362,19 @@ jobs:
           import androidx.compose.runtime.mutableStateOf
           import androidx.compose.runtime.remember
           import androidx.compose.runtime.setValue
-          import androidx.compose.runtime.snapshots.SnapshotStateList
-          import androidx.compose.runtime.toMutableStateList
+
           import androidx.compose.ui.Alignment
           import androidx.compose.ui.Modifier
           import androidx.compose.ui.draw.scale
           import androidx.compose.ui.graphics.Color
-          import androidx.compose.ui.graphics.vector.ImageVector
           import androidx.compose.ui.text.font.FontWeight
           import androidx.compose.ui.unit.dp
           import androidx.compose.ui.unit.sp
+
           import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+
           import kotlinx.coroutines.delay
+
 
           private val AppBackground = Color(0xFFF7F7F5)
           private val AppText = Color(0xFF171717)
@@ -304,6 +383,7 @@ jobs:
           private val CardWhite = Color.White
           private val SoftPurple = Color(0xFFEDE7FF)
 
+
           data class Memory(
               val id: Int,
               val type: String,
@@ -311,6 +391,7 @@ jobs:
               val description: String,
               val saved: Boolean = false
           )
+
 
           class MainActivity : ComponentActivity() {
 
@@ -328,41 +409,65 @@ jobs:
 
                       val icon = splashView.iconView
 
-                      val scaleX = ObjectAnimator.ofFloat(
-                          icon,
-                          View.SCALE_X,
-                          1f,
-                          0.78f
-                      )
+                      val scaleX =
+                          ObjectAnimator.ofFloat(
+                              icon,
+                              View.SCALE_X,
+                              1f,
+                              0.75f
+                          )
 
-                      val scaleY = ObjectAnimator.ofFloat(
-                          icon,
-                          View.SCALE_Y,
-                          1f,
-                          0.78f
-                      )
+                      val scaleY =
+                          ObjectAnimator.ofFloat(
+                              icon,
+                              View.SCALE_Y,
+                              1f,
+                              0.75f
+                          )
 
-                      val alpha = ObjectAnimator.ofFloat(
-                          splashView.view,
-                          View.ALPHA,
-                          1f,
-                          0f
-                      )
+                      val alpha =
+                          ObjectAnimator.ofFloat(
+                              splashView.view,
+                              View.ALPHA,
+                              1f,
+                              0f
+                          )
 
                       AnimatorSet().apply {
+
                           duration = 350
-                          playTogether(scaleX, scaleY, alpha)
-                          interpolator = android.view.animation.DecelerateInterpolator()
-                          doOnEnd {
-                              splashView.remove()
-                          }
+
+                          playTogether(
+                              scaleX,
+                              scaleY,
+                              alpha
+                          )
+
+                          interpolator =
+                              android.view.animation.DecelerateInterpolator()
+
+                          addListener(
+                              object : AnimatorListenerAdapter() {
+
+                                  override fun onAnimationEnd(
+                                      animation: Animator
+                                  ) {
+                                      splashView.remove()
+                                  }
+
+                              }
+                          )
+
                           start()
                       }
                   }
 
-                  Handler(Looper.getMainLooper()).postDelayed({
-                      splashFinished = true
-                  }, 900)
+                  Handler(Looper.getMainLooper()).postDelayed(
+                      {
+                          splashFinished = true
+                      },
+                      800
+                  )
 
                   super.onCreate(savedInstanceState)
 
@@ -371,6 +476,7 @@ jobs:
                   }
               }
           }
+
 
           @Composable
           fun MemoryVaultApp() {
@@ -391,46 +497,59 @@ jobs:
                   mutableStateOf(false)
               }
 
-              val memories = remember {
+              var memories by remember {
+
                   mutableStateOf(
                       listOf(
+
                           Memory(
                               1,
                               "AI PROMPT",
                               "Cinematic portrait prompt",
                               "A prompt with reference images and notes."
                           ),
+
                           Memory(
                               2,
                               "IMAGE",
                               "A frame I want to remember",
                               "Saved with the story behind the image."
                           ),
+
                           Memory(
                               3,
                               "VIDEO",
                               "Editing technique",
                               "Saved from an external platform."
                           )
+
                       )
                   )
               }
 
+
               LaunchedEffect(Unit) {
-                  delay(180)
+
+                  delay(150)
+
                   appVisible = true
               }
 
-              val tabs = listOf(
-                  "Home",
-                  "Library",
-                  "Saved",
-                  "Profile"
-              )
+
+              val tabs =
+                  listOf(
+                      "Home",
+                      "Library",
+                      "Saved",
+                      "Profile"
+                  )
+
 
               AnimatedVisibility(
                   visible = appVisible,
-                  enter = fadeIn(animationSpec = tween(350))
+                  enter = fadeIn(
+                      animationSpec = tween(350)
+                  )
               ) {
 
                   Scaffold(
@@ -444,51 +563,77 @@ jobs:
                               tonalElevation = 0.dp
                           ) {
 
-                              tabs.forEachIndexed { index, title ->
+                              tabs.forEachIndexed {
+                                  index,
+                                  title ->
 
-                                  val icon = when (index) {
-                                      0 -> Icons.Outlined.Home
-                                      1 -> Icons.Outlined.GridView
-                                      2 -> Icons.Outlined.FavoriteBorder
-                                      else -> Icons.Outlined.Person
-                                  }
+                                  val icon =
+                                      when (index) {
 
-                                  val selectedIcon = when (index) {
-                                      0 -> Icons.Filled.Home
-                                      1 -> Icons.Filled.GridView
-                                      2 -> Icons.Filled.Favorite
-                                      else -> Icons.Filled.Person
-                                  }
+                                          0 ->
+                                              Icons.Outlined.Home
 
-                                  val iconScale by animateFloatAsState(
-                                      targetValue = if (selectedTab == index) 1.08f else 1f,
-                                      animationSpec = tween(180),
-                                      label = "navScale"
-                                  )
+                                          1 ->
+                                              Icons.Outlined.GridView
+
+                                          2 ->
+                                              Icons.Outlined.FavoriteBorder
+
+                                          else ->
+                                              Icons.Outlined.Person
+                                      }
+
+
+                                  val iconScale by
+                                      animateFloatAsState(
+
+                                          targetValue =
+                                              if (
+                                                  selectedTab ==
+                                                  index
+                                              )
+                                                  1.12f
+                                              else
+                                                  1f,
+
+                                          animationSpec =
+                                              tween(180),
+
+                                          label =
+                                              "navIconScale"
+                                      )
+
 
                                   NavigationBarItem(
 
-                                      selected = selectedTab == index,
+                                      selected =
+                                          selectedTab == index,
 
                                       onClick = {
-                                          selectedTab = index
+
+                                          selectedTab =
+                                              index
                                       },
 
                                       icon = {
+
                                           Icon(
+
                                               imageVector =
-                                                  if (selectedTab == index)
-                                                      selectedIcon
-                                                  else
-                                                      icon,
-                                              contentDescription = title,
-                                              modifier = Modifier
-                                                  .size(23.dp)
-                                                  .scale(iconScale)
+                                                  icon,
+
+                                              contentDescription =
+                                                  title,
+
+                                              modifier =
+                                                  Modifier
+                                                      .size(23.dp)
+                                                      .scale(iconScale)
                                           )
                                       },
 
                                       label = {
+
                                           Text(
                                               text = title,
                                               fontSize = 12.sp
@@ -499,6 +644,7 @@ jobs:
                           }
                       },
 
+
                       floatingActionButton = {
 
                           FloatingActionButton(
@@ -507,72 +653,107 @@ jobs:
                                   showAddDialog = true
                               },
 
-                              containerColor = AppAccent,
-                              contentColor = Color.White,
-                              shape = RoundedCornerShape(18.dp)
+                              containerColor =
+                                  AppAccent,
+
+                              contentColor =
+                                  Color.White,
+
+                              shape =
+                                  RoundedCornerShape(18.dp)
                           ) {
 
                               Icon(
-                                  imageVector = Icons.Outlined.Add,
-                                  contentDescription = "Add memory",
-                                  modifier = Modifier.size(27.dp)
+
+                                  imageVector =
+                                      Icons.Outlined.Add,
+
+                                  contentDescription =
+                                      "Add memory",
+
+                                  modifier =
+                                      Modifier.size(27.dp)
                               )
                           }
                       }
 
                   ) { padding ->
 
-                      AnimatedContent(
-                          targetState = selectedTab,
-                          modifier = Modifier.padding(padding),
-                          transitionSpec = {
-                              fadeIn(
-                                  animationSpec = tween(220)
-                              ) + slideInVertically(
-                                  initialOffsetY = { it / 12 },
-                                  animationSpec = tween(220)
-                              ) togetherWith
-                                      fadeOut(
-                                          animationSpec = tween(160)
-                                      ) + slideOutVertically(
-                                  targetOffsetY = { -it / 12 },
-                                  animationSpec = tween(160)
-                              )
-                          },
-                          label = "screenTransition"
+
+                      Crossfade(
+
+                          targetState =
+                              selectedTab,
+
+                          animationSpec =
+                              tween(220),
+
+                          modifier =
+                              Modifier.padding(padding),
+
+                          label =
+                              "screenTransition"
+
                       ) { tab ->
+
 
                           when (tab) {
 
-                              0 -> HomeScreen(
-                                  memories = memories.value,
-                                  onOpen = {
-                                      selectedMemory = it
-                                  },
-                                  onSeeAll = {
-                                      selectedTab = 1
-                                  }
-                              )
+                              0 -> {
 
-                              1 -> LibraryScreen(
-                                  memories = memories.value,
-                                  onOpen = {
-                                      selectedMemory = it
-                                  }
-                              )
+                                  HomeScreen(
 
-                              2 -> SavedScreen(
-                                  memories = memories.value,
-                                  onOpen = {
-                                      selectedMemory = it
-                                  }
-                              )
+                                      memories =
+                                          memories,
 
-                              else -> ProfileScreen()
+                                      onOpen = {
+                                          selectedMemory = it
+                                      },
+
+                                      onSeeAll = {
+                                          selectedTab = 1
+                                      }
+                                  )
+                              }
+
+
+                              1 -> {
+
+                                  LibraryScreen(
+
+                                      memories =
+                                          memories,
+
+                                      onOpen = {
+                                          selectedMemory = it
+                                      }
+                                  )
+                              }
+
+
+                              2 -> {
+
+                                  SavedScreen(
+
+                                      memories =
+                                          memories,
+
+                                      onOpen = {
+                                          selectedMemory = it
+                                      }
+                                  )
+                              }
+
+
+                              else -> {
+
+                                  ProfileScreen()
+                              }
                           }
                       }
                   }
               }
+
 
               if (showAddDialog) {
 
@@ -582,23 +763,31 @@ jobs:
                           showAddDialog = false
                       },
 
-                      onAdd = { type, title, description ->
+                      onAdd = {
+                          type,
+                          title,
+                          description ->
 
                           val newId =
-                              (memories.value.maxOfOrNull { it.id } ?: 0) + 1
+                              (memories.maxOfOrNull {
+                                  it.id
+                              } ?: 0) + 1
 
-                          memories.value =
-                              memories.value + Memory(
-                                  id = newId,
-                                  type = type,
-                                  title = title,
-                                  description = description
-                              )
+                          memories =
+                              memories +
+                                      Memory(
+                                          id = newId,
+                                          type = type,
+                                          title = title,
+                                          description =
+                                              description
+                                      )
 
                           showAddDialog = false
                       }
                   )
               }
+
 
               selectedMemory?.let { memory ->
 
@@ -612,21 +801,35 @@ jobs:
 
                       onToggleSaved = {
 
-                          memories.value = memories.value.map {
+                          val updatedSaved =
+                              !memory.saved
 
-                              if (it.id == memory.id) {
-                                  it.copy(saved = !it.saved)
-                              } else {
-                                  it
+                          memories =
+                              memories.map {
+
+                                  if (
+                                      it.id ==
+                                      memory.id
+                                  ) {
+                                      it.copy(
+                                          saved =
+                                              updatedSaved
+                                      )
+                                  } else {
+                                      it
+                                  }
                               }
-                          }
 
                           selectedMemory =
-                              memory.copy(saved = !memory.saved)
+                              memory.copy(
+                                  saved =
+                                      updatedSaved
+                              )
                       }
                   )
               }
           }
+
 
           @Composable
           fun HomeScreen(
@@ -639,127 +842,183 @@ jobs:
                   mutableStateOf("")
               }
 
+
               val filteredMemories =
                   memories.filter {
+
                       it.title.contains(
                           searchQuery,
                           ignoreCase = true
                       ) ||
+
                               it.description.contains(
                                   searchQuery,
                                   ignoreCase = true
                               )
                   }
 
+
               LazyColumn(
 
-                  modifier = Modifier
-                      .fillMaxSize()
-                      .padding(horizontal = 20.dp),
+                  modifier =
+                      Modifier
+                          .fillMaxSize()
+                          .padding(
+                              horizontal = 20.dp
+                          ),
 
                   verticalArrangement =
                       Arrangement.spacedBy(14.dp)
               ) {
 
+
                   item {
 
                       Spacer(
-                          modifier = Modifier.height(22.dp)
+                          modifier =
+                              Modifier.height(22.dp)
                       )
 
                       Text(
                           text = "Memory Vault",
                           color = AppText,
                           fontSize = 29.sp,
-                          fontWeight = FontWeight.SemiBold
+                          fontWeight =
+                              FontWeight.SemiBold
                       )
 
                       Spacer(
-                          modifier = Modifier.height(4.dp)
+                          modifier =
+                              Modifier.height(4.dp)
                       )
 
                       Text(
-                          text = "Keep the things worth remembering.",
+                          text =
+                              "Keep the things worth remembering.",
                           color = AppSecondary,
                           fontSize = 15.sp
                       )
                   }
 
+
                   item {
 
                       Spacer(
-                          modifier = Modifier.height(6.dp)
+                          modifier =
+                              Modifier.height(6.dp)
                       )
 
                       OutlinedTextField(
 
-                          value = searchQuery,
+                          value =
+                              searchQuery,
 
                           onValueChange = {
                               searchQuery = it
                           },
 
-                          modifier = Modifier.fillMaxWidth(),
+                          modifier =
+                              Modifier.fillMaxWidth(),
 
                           singleLine = true,
 
-                          shape = RoundedCornerShape(18.dp),
+                          shape =
+                              RoundedCornerShape(18.dp),
 
                           leadingIcon = {
+
                               Icon(
                                   Icons.Outlined.Search,
-                                  contentDescription = "Search"
+                                  contentDescription =
+                                      "Search"
                               )
                           },
 
                           placeholder = {
-                              Text("Search your memories")
+                              Text(
+                                  "Search your memories"
+                              )
                           }
                       )
                   }
 
+
                   item {
 
                       Row(
-                          modifier = Modifier.fillMaxWidth(),
-                          verticalAlignment = Alignment.CenterVertically
+
+                          modifier =
+                              Modifier.fillMaxWidth(),
+
+                          verticalAlignment =
+                              Alignment.CenterVertically
                       ) {
 
                           Text(
-                              text = "Recent Memories",
-                              color = AppText,
-                              fontSize = 20.sp,
-                              fontWeight = FontWeight.SemiBold,
-                              modifier = Modifier.weight(1f)
+
+                              text =
+                                  "Recent Memories",
+
+                              color =
+                                  AppText,
+
+                              fontSize =
+                                  20.sp,
+
+                              fontWeight =
+                                  FontWeight.SemiBold,
+
+                              modifier =
+                                  Modifier.weight(1f)
                           )
+
 
                           TextButton(
                               onClick = onSeeAll
                           ) {
-                              Text("See all")
+
+                              Text(
+                                  "See all"
+                              )
                           }
                       }
                   }
 
-                  if (filteredMemories.isEmpty()) {
+
+                  if (
+                      filteredMemories.isEmpty()
+                  ) {
 
                       item {
 
                           EmptyState(
-                              title = "No memories found",
-                              subtitle = "Try another search."
+
+                              title =
+                                  "No memories found",
+
+                              subtitle =
+                                  "Try another search."
                           )
                       }
 
                   } else {
 
                       items(
-                          items = filteredMemories,
-                          key = { it.id }
+
+                          items =
+                              filteredMemories,
+
+                          key = {
+                              it.id
+                          }
+
                       ) { memory ->
 
                           MemoryCard(
-                              memory = memory,
+
+                              memory =
+                                  memory,
+
                               onClick = {
                                   onOpen(memory)
                               }
@@ -767,23 +1026,34 @@ jobs:
                       }
                   }
 
+
                   item {
 
                       Spacer(
-                          modifier = Modifier.height(8.dp)
+                          modifier =
+                              Modifier.height(8.dp)
                       )
 
                       Text(
-                          text = "Everything you save has a reason.",
-                          color = AppSecondary,
-                          fontSize = 14.sp,
-                          modifier = Modifier.padding(
-                              bottom = 30.dp
-                          )
+
+                          text =
+                              "Everything you save has a reason.",
+
+                          color =
+                              AppSecondary,
+
+                          fontSize =
+                              14.sp,
+
+                          modifier =
+                              Modifier.padding(
+                                  bottom = 30.dp
+                              )
                       )
                   }
               }
           }
+
 
           @Composable
           fun LibraryScreen(
@@ -793,9 +1063,10 @@ jobs:
 
               LazyColumn(
 
-                  modifier = Modifier
-                      .fillMaxSize()
-                      .padding(20.dp),
+                  modifier =
+                      Modifier
+                          .fillMaxSize()
+                          .padding(20.dp),
 
                   verticalArrangement =
                       Arrangement.spacedBy(14.dp)
@@ -804,34 +1075,45 @@ jobs:
                   item {
 
                       Spacer(
-                          modifier = Modifier.height(18.dp)
+                          modifier =
+                              Modifier.height(18.dp)
                       )
 
                       Text(
-                          "Library",
+                          text = "Library",
                           fontSize = 29.sp,
-                          fontWeight = FontWeight.SemiBold,
+                          fontWeight =
+                              FontWeight.SemiBold,
                           color = AppText
                       )
 
                       Text(
-                          "All your memories in one place.",
-                          color = AppSecondary,
+                          text =
+                              "All your memories in one place.",
+                          color =
+                              AppSecondary,
                           fontSize = 15.sp
                       )
 
                       Spacer(
-                          modifier = Modifier.height(12.dp)
+                          modifier =
+                              Modifier.height(12.dp)
                       )
                   }
 
+
                   items(
                       memories,
-                      key = { it.id }
+                      key = {
+                          it.id
+                      }
                   ) { memory ->
 
                       MemoryCard(
-                          memory = memory,
+
+                          memory =
+                              memory,
+
                           onClick = {
                               onOpen(memory)
                           }
@@ -840,6 +1122,7 @@ jobs:
               }
           }
 
+
           @Composable
           fun SavedScreen(
               memories: List<Memory>,
@@ -847,13 +1130,17 @@ jobs:
           ) {
 
               val saved =
-                  memories.filter { it.saved }
+                  memories.filter {
+                      it.saved
+                  }
+
 
               LazyColumn(
 
-                  modifier = Modifier
-                      .fillMaxSize()
-                      .padding(20.dp),
+                  modifier =
+                      Modifier
+                          .fillMaxSize()
+                          .padding(20.dp),
 
                   verticalArrangement =
                       Arrangement.spacedBy(14.dp)
@@ -862,33 +1149,42 @@ jobs:
                   item {
 
                       Spacer(
-                          modifier = Modifier.height(18.dp)
+                          modifier =
+                              Modifier.height(18.dp)
                       )
 
                       Text(
-                          "Saved",
+                          text = "Saved",
                           fontSize = 29.sp,
-                          fontWeight = FontWeight.SemiBold,
+                          fontWeight =
+                              FontWeight.SemiBold,
                           color = AppText
                       )
 
                       Text(
-                          "Your favorite memories.",
-                          color = AppSecondary,
+                          text =
+                              "Your favorite memories.",
+                          color =
+                              AppSecondary,
                           fontSize = 15.sp
                       )
 
                       Spacer(
-                          modifier = Modifier.height(12.dp)
+                          modifier =
+                              Modifier.height(12.dp)
                       )
                   }
+
 
                   if (saved.isEmpty()) {
 
                       item {
 
                           EmptyState(
-                              title = "Nothing saved yet",
+
+                              title =
+                                  "Nothing saved yet",
+
                               subtitle =
                                   "Open a memory and tap Save."
                           )
@@ -897,12 +1193,20 @@ jobs:
                   } else {
 
                       items(
+
                           saved,
-                          key = { it.id }
+
+                          key = {
+                              it.id
+                          }
+
                       ) { memory ->
 
                           MemoryCard(
-                              memory = memory,
+
+                              memory =
+                                  memory,
+
                               onClick = {
                                   onOpen(memory)
                               }
@@ -912,14 +1216,16 @@ jobs:
               }
           }
 
+
           @Composable
           fun ProfileScreen() {
 
               Column(
 
-                  modifier = Modifier
-                      .fillMaxSize()
-                      .padding(20.dp),
+                  modifier =
+                      Modifier
+                          .fillMaxSize()
+                          .padding(20.dp),
 
                   horizontalAlignment =
                       Alignment.CenterHorizontally,
@@ -928,53 +1234,84 @@ jobs:
                       Arrangement.Center
               ) {
 
+
                   Surface(
 
-                      modifier = Modifier.size(88.dp),
+                      modifier =
+                          Modifier.size(92.dp),
 
-                      shape = RoundedCornerShape(28.dp),
+                      shape =
+                          RoundedCornerShape(30.dp),
 
-                      color = SoftPurple
+                      color =
+                          SoftPurple
                   ) {
 
                       Box(
+
                           contentAlignment =
                               Alignment.Center
                       ) {
 
                           Icon(
+
                               imageVector =
                                   Icons.Outlined.Person,
+
                               contentDescription =
                                   "Profile",
-                              tint = AppText,
-                              modifier = Modifier.size(42.dp)
+
+                              tint =
+                                  AppText,
+
+                              modifier =
+                                  Modifier.size(44.dp)
                           )
                       }
                   }
 
-                  Spacer(
-                      modifier = Modifier.height(18.dp)
-                  )
-
-                  Text(
-                      "Profile",
-                      color = AppText,
-                      fontSize = 29.sp,
-                      fontWeight = FontWeight.SemiBold
-                  )
 
                   Spacer(
-                      modifier = Modifier.height(6.dp)
+                      modifier =
+                          Modifier.height(18.dp)
                   )
 
+
                   Text(
-                      "Your personal memory space.",
-                      color = AppSecondary,
-                      fontSize = 15.sp
+
+                      text = "Profile",
+
+                      color =
+                          AppText,
+
+                      fontSize =
+                          29.sp,
+
+                      fontWeight =
+                          FontWeight.SemiBold
+                  )
+
+
+                  Spacer(
+                      modifier =
+                          Modifier.height(6.dp)
+                  )
+
+
+                  Text(
+
+                      text =
+                          "Your personal memory space.",
+
+                      color =
+                          AppSecondary,
+
+                      fontSize =
+                          15.sp
                   )
               }
           }
+
 
           @Composable
           fun MemoryCard(
@@ -982,138 +1319,231 @@ jobs:
               onClick: () -> Unit
           ) {
 
-              val icon = when (memory.type) {
-                  "IMAGE" -> Icons.Outlined.Image
-                  "VIDEO" -> Icons.Outlined.Movie
-                  else -> Icons.Outlined.AutoAwesome
-              }
+              val icon =
+
+                  when (memory.type) {
+
+                      "IMAGE" ->
+                          Icons.Outlined.Image
+
+                      "VIDEO" ->
+                          Icons.Outlined.Movie
+
+                      else ->
+                          Icons.Outlined.AutoAwesome
+                  }
+
 
               Card(
 
-                  modifier = Modifier
-                      .fillMaxWidth()
-                      .clickable {
-                          onClick()
-                      },
+                  modifier =
+                      Modifier
+                          .fillMaxWidth()
+                          .clickable {
+                              onClick()
+                          },
 
-                  shape = RoundedCornerShape(18.dp),
+                  shape =
+                      RoundedCornerShape(18.dp),
 
-                  colors = CardDefaults.cardColors(
-                      containerColor = CardWhite
-                  ),
+                  colors =
+                      CardDefaults.cardColors(
+                          containerColor =
+                              CardWhite
+                      ),
 
-                  elevation = CardDefaults.cardElevation(
-                      defaultElevation = 0.dp
-                  )
+                  elevation =
+                      CardDefaults.cardElevation(
+                          defaultElevation =
+                              0.dp
+                      )
               ) {
 
+
                   Column(
-                      modifier = Modifier.padding(18.dp)
+
+                      modifier =
+                          Modifier.padding(18.dp)
                   ) {
 
+
                       Row(
+
                           verticalAlignment =
                               Alignment.CenterVertically
                       ) {
 
+
                           Surface(
-                              modifier = Modifier.size(40.dp),
+
+                              modifier =
+                                  Modifier.size(40.dp),
+
                               shape =
                                   RoundedCornerShape(12.dp),
-                              color = Color(0xFFF0F0EE)
+
+                              color =
+                                  Color(0xFFF0F0EE)
                           ) {
 
                               Box(
+
                                   contentAlignment =
                                       Alignment.Center
                               ) {
 
                                   Icon(
-                                      imageVector = icon,
-                                      contentDescription = null,
-                                      modifier = Modifier.size(21.dp),
-                                      tint = AppText
+
+                                      imageVector =
+                                          icon,
+
+                                      contentDescription =
+                                          null,
+
+                                      modifier =
+                                          Modifier.size(21.dp),
+
+                                      tint =
+                                          AppText
                                   )
                               }
                           }
 
+
                           Spacer(
-                              modifier = Modifier.size(12.dp)
+                              modifier =
+                                  Modifier.size(12.dp)
                           )
+
 
                           Text(
-                              memory.type,
-                              color = AppSecondary,
-                              fontSize = 11.sp,
-                              fontWeight = FontWeight.Medium,
-                              letterSpacing = 1.sp
+
+                              text =
+                                  memory.type,
+
+                              color =
+                                  AppSecondary,
+
+                              fontSize =
+                                  11.sp,
+
+                              fontWeight =
+                                  FontWeight.Medium,
+
+                              letterSpacing =
+                                  1.sp
                           )
 
+
                           Spacer(
-                              modifier = Modifier.weight(1f)
+                              modifier =
+                                  Modifier.weight(1f)
                           )
+
 
                           if (memory.saved) {
 
                               Icon(
-                                  Icons.Filled.Favorite,
+
+                                  Icons.Outlined.Favorite,
+
                                   contentDescription =
                                       "Saved",
-                                  tint = AppText,
+
+                                  tint =
+                                      AppText,
+
                                   modifier =
                                       Modifier.size(19.dp)
                               )
                           }
                       }
 
+
                       Spacer(
-                          modifier = Modifier.height(12.dp)
+                          modifier =
+                              Modifier.height(12.dp)
                       )
+
 
                       Text(
-                          memory.title,
-                          color = AppText,
-                          fontSize = 18.sp,
-                          fontWeight = FontWeight.SemiBold
+
+                          text =
+                              memory.title,
+
+                          color =
+                              AppText,
+
+                          fontSize =
+                              18.sp,
+
+                          fontWeight =
+                              FontWeight.SemiBold
                       )
 
+
                       Spacer(
-                          modifier = Modifier.height(5.dp)
+                          modifier =
+                              Modifier.height(5.dp)
                       )
+
 
                       Text(
-                          memory.description,
-                          color = AppSecondary,
-                          fontSize = 14.sp,
-                          lineHeight = 20.sp
+
+                          text =
+                              memory.description,
+
+                          color =
+                              AppSecondary,
+
+                          fontSize =
+                              14.sp,
+
+                          lineHeight =
+                              20.sp
                       )
 
+
                       Spacer(
-                          modifier = Modifier.height(9.dp)
+                          modifier =
+                              Modifier.height(9.dp)
                       )
+
 
                       Row(
+
                           verticalAlignment =
                               Alignment.CenterVertically
                       ) {
+
 
                           TextButton(
                               onClick = onClick
                           ) {
 
                               Text(
-                                  "Open memory",
-                                  color = AppText
+
+                                  text =
+                                      "Open memory",
+
+                                  color =
+                                      AppText
                               )
+
 
                               Spacer(
                                   modifier =
                                       Modifier.size(4.dp)
                               )
 
+
                               Icon(
+
                                   Icons.Outlined.ArrowForward,
-                                  contentDescription = null,
+
+                                  contentDescription =
+                                      null,
+
                                   modifier =
                                       Modifier.size(17.dp)
                               )
@@ -1123,106 +1553,167 @@ jobs:
               }
           }
 
+
           @Composable
           fun MemoryDetailDialog(
+
               memory: Memory,
+
               onDismiss: () -> Unit,
+
               onToggleSaved: () -> Unit
+
           ) {
 
               AlertDialog(
 
-                  onDismissRequest = onDismiss,
+                  onDismissRequest =
+                      onDismiss,
+
 
                   title = {
 
                       Row(
+
                           verticalAlignment =
                               Alignment.CenterVertically
                       ) {
 
                           Text(
-                              memory.title,
+
+                              text =
+                                  memory.title,
+
                               modifier =
                                   Modifier.weight(1f)
                           )
 
+
                           IconButton(
-                              onClick = onDismiss
+
+                              onClick =
+                                  onDismiss
+
                           ) {
+
                               Icon(
+
                                   Icons.Outlined.Close,
-                                  contentDescription = "Close"
+
+                                  contentDescription =
+                                      "Close"
                               )
                           }
                       }
                   },
+
 
                   text = {
 
                       Column {
 
                           Text(
-                              memory.type,
-                              fontSize = 11.sp,
+
+                              text =
+                                  memory.type,
+
+                              fontSize =
+                                  11.sp,
+
                               fontWeight =
                                   FontWeight.Medium,
-                              color = AppSecondary,
-                              letterSpacing = 1.sp
+
+                              color =
+                                  AppSecondary,
+
+                              letterSpacing =
+                                  1.sp
                           )
+
 
                           Spacer(
                               modifier =
                                   Modifier.height(12.dp)
                           )
 
+
                           Text(
-                              memory.description,
-                              color = AppSecondary,
-                              lineHeight = 21.sp
+
+                              text =
+                                  memory.description,
+
+                              color =
+                                  AppSecondary,
+
+                              lineHeight =
+                                  21.sp
                           )
                       }
                   },
 
+
                   confirmButton = {
 
                       TextButton(
-                          onClick = onToggleSaved
+
+                          onClick =
+                              onToggleSaved
+
                       ) {
 
                           Icon(
+
                               imageVector =
-                                  if (memory.saved)
-                                      Icons.Filled.Favorite
+
+                                  if (
+                                      memory.saved
+                                  )
+                                      Icons.Outlined.Favorite
                                   else
                                       Icons.Outlined.FavoriteBorder,
-                              contentDescription = null,
-                              modifier = Modifier.size(18.dp)
+
+                              contentDescription =
+                                  null,
+
+                              modifier =
+                                  Modifier.size(18.dp)
                           )
+
 
                           Spacer(
-                              modifier = Modifier.size(6.dp)
+                              modifier =
+                                  Modifier.size(6.dp)
                           )
 
+
                           Text(
-                              if (memory.saved)
-                                  "Unsave"
-                              else
-                                  "Save"
+
+                              text =
+
+                                  if (
+                                      memory.saved
+                                  )
+                                      "Unsave"
+                                  else
+                                      "Save"
                           )
                       }
                   }
               )
           }
 
+
           @Composable
           fun AddMemoryDialog(
+
               onDismiss: () -> Unit,
+
               onAdd: (
                   String,
                   String,
                   String
               ) -> Unit
+
           ) {
 
               var type by remember {
@@ -1237,69 +1728,98 @@ jobs:
                   mutableStateOf("")
               }
 
+
               AlertDialog(
 
-                  onDismissRequest = onDismiss,
+                  onDismissRequest =
+                      onDismiss,
+
 
                   title = {
                       Text("Add Memory")
                   },
+
 
                   text = {
 
                       Column {
 
                           OutlinedTextField(
-                              value = title,
+
+                              value =
+                                  title,
+
                               onValueChange = {
                                   title = it
                               },
+
                               label = {
                                   Text("Title")
                               },
+
                               singleLine = true,
+
                               modifier =
                                   Modifier.fillMaxWidth()
                           )
+
 
                           Spacer(
                               modifier =
                                   Modifier.height(10.dp)
                           )
 
+
                           OutlinedTextField(
-                              value = description,
+
+                              value =
+                                  description,
+
                               onValueChange = {
                                   description = it
                               },
+
                               label = {
                                   Text("Description")
                               },
+
                               modifier =
                                   Modifier.fillMaxWidth()
                           )
+
 
                           Spacer(
                               modifier =
                                   Modifier.height(10.dp)
                           )
 
+
                           Text(
-                              "Type: $type",
-                              color = AppSecondary,
-                              fontSize = 13.sp
+
+                              text =
+                                  "Type: $type",
+
+                              color =
+                                  AppSecondary,
+
+                              fontSize =
+                                  13.sp
                           )
                       }
                   },
+
 
                   dismissButton = {
 
                       TextButton(
-                          onClick = onDismiss
+                          onClick =
+                              onDismiss
                       ) {
+
                           Text("Cancel")
                       }
                   },
+
 
                   confirmButton = {
 
@@ -1309,106 +1829,132 @@ jobs:
                               title.isNotBlank(),
 
                           onClick = {
+
                               onAdd(
+
                                   type,
+
                                   title.trim(),
+
                                   description.trim()
                               )
                           }
+
                       ) {
+
                           Text("Add")
                       }
                   }
               )
           }
 
+
           @Composable
           fun EmptyState(
+
               title: String,
+
               subtitle: String
+
           ) {
 
               Surface(
 
-                  modifier = Modifier
-                      .fillMaxWidth()
-                      .padding(vertical = 30.dp),
+                  modifier =
+                      Modifier
+                          .fillMaxWidth()
+                          .padding(
+                              vertical = 30.dp
+                          ),
 
-                  color = Color.White,
+                  color =
+                      Color.White,
 
-                  shape = RoundedCornerShape(18.dp)
+                  shape =
+                      RoundedCornerShape(18.dp)
               ) {
 
                   Column(
 
-                      modifier = Modifier.padding(28.dp),
+                      modifier =
+                          Modifier.padding(28.dp),
 
                       horizontalAlignment =
                           Alignment.CenterHorizontally
                   ) {
 
+
                       Icon(
+
                           Icons.Outlined.BookmarkBorder,
-                          contentDescription = null,
-                          modifier = Modifier.size(32.dp),
-                          tint = AppSecondary
+
+                          contentDescription =
+                              null,
+
+                          modifier =
+                              Modifier.size(32.dp),
+
+                          tint =
+                              AppSecondary
                       )
+
 
                       Spacer(
                           modifier =
                               Modifier.height(12.dp)
                       )
 
+
                       Text(
-                          title,
+
+                          text =
+                              title,
+
                           fontWeight =
                               FontWeight.SemiBold,
-                          color = AppText
+
+                          color =
+                              AppText
                       )
+
 
                       Spacer(
                           modifier =
                               Modifier.height(5.dp)
                       )
 
+
                       Text(
-                          subtitle,
-                          color = AppSecondary,
-                          fontSize = 14.sp
+
+                          text =
+                              subtitle,
+
+                          color =
+                              AppSecondary,
+
+                          fontSize =
+                              14.sp
                       )
                   }
               }
           }
 
-          private fun AnimatorSet.doOnEnd(
-              action: () -> Unit
-          ) {
-              addListener(
-                  object :
-                      android.animation.AnimatorListenerAdapter() {
-
-                      override fun onAnimationEnd(
-                          animation:
-                              android.animation.Animator
-                      ) {
-                          action()
-                      }
-                  }
-              )
-          }
           EOF
+
 
       - name: Generate Gradle wrapper
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.11.1"
 
+
       - name: Build Debug APK
         run: gradle assembleDebug --no-daemon
+
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Memory-Vault-v1.1-APK
+          name: Memory-Vault-v1.2-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
