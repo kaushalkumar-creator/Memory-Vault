@@ -22,10 +22,13 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      # ---------------------------------------------------------
+      # ANDROID PROJECT
+      # ---------------------------------------------------------
+
       - name: Create Android project
         shell: bash
         run: |
-
           mkdir -p app/src/main/java/com/kaushal/memoryvault
           mkdir -p app/src/main/res/values
           mkdir -p app/src/main/res/drawable
@@ -127,13 +130,24 @@ jobs:
 
               implementation("androidx.compose.material3:material3")
 
-              implementation("androidx.compose.material:material-icons-extended")
+              implementation(
+                  "androidx.compose.material:material-icons-extended"
+              )
 
-              debugImplementation("androidx.compose.ui:ui-tooling")
+              debugImplementation(
+                  "androidx.compose.ui:ui-tooling"
+              )
           }
           EOF
 
 
+      # ---------------------------------------------------------
+      # MANIFEST
+      # ---------------------------------------------------------
+
+      - name: Create Android Manifest
+        shell: bash
+        run: |
           cat > app/src/main/AndroidManifest.xml <<'EOF'
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -162,6 +176,13 @@ jobs:
           EOF
 
 
+      # ---------------------------------------------------------
+      # THEMES
+      # ---------------------------------------------------------
+
+      - name: Create Themes
+        shell: bash
+        run: |
           cat > app/src/main/res/values/styles.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
 
@@ -171,7 +192,9 @@ jobs:
                   name="Theme.MemoryVault.Splash"
                   parent="Theme.SplashScreen">
 
-                  <item name="windowSplashScreenBackground">#F7F7F5</item>
+                  <item name="windowSplashScreenBackground">
+                      #F7F7F5
+                  </item>
 
                   <item name="windowSplashScreenAnimatedIcon">
                       @drawable/ic_launcher
@@ -188,13 +211,21 @@ jobs:
                   name="Theme.MemoryVault"
                   parent="android:style/Theme.Material.Light.NoActionBar">
 
-                  <item name="android:fontFamily">sans</item>
+                  <item name="android:fontFamily">
+                      sans
+                  </item>
 
-                  <item name="android:windowLightStatusBar">true</item>
+                  <item name="android:windowLightStatusBar">
+                      true
+                  </item>
 
-                  <item name="android:statusBarColor">#F7F7F5</item>
+                  <item name="android:statusBarColor">
+                      #F7F7F5
+                  </item>
 
-                  <item name="android:navigationBarColor">#FFFFFF</item>
+                  <item name="android:navigationBarColor">
+                      #FFFFFF
+                  </item>
 
               </style>
 
@@ -202,6 +233,13 @@ jobs:
           EOF
 
 
+      # ---------------------------------------------------------
+      # APP ICON
+      # ---------------------------------------------------------
+
+      - name: Create Memory Vault Icon
+        shell: bash
+        run: |
           cat > app/src/main/res/drawable/ic_launcher.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
 
@@ -212,102 +250,129 @@ jobs:
               android:viewportWidth="108"
               android:viewportHeight="108">
 
-              <!-- Dark circular background -->
+              <!-- Rounded dark vault background -->
+
               <path
                   android:fillColor="#171717"
                   android:pathData="
-                      M54,4
-                      A50,50 0,1 0,54,104
-                      A50,50 0,1 0,54,4" />
+                      M18,6
+                      L90,6
+                      C97,6 102,11 102,18
+                      L102,90
+                      C102,97 97,102 90,102
+                      L18,102
+                      C11,102 6,97 6,90
+                      L6,18
+                      C6,11 11,6 18,6
+                      Z" />
+
 
               <!-- Vault body -->
+
               <path
                   android:fillColor="#F7F7F5"
                   android:pathData="
-                      M30,34
-                      C30,29 34,26 39,26
-                      L69,26
-                      C74,26 78,29 78,34
-                      L78,74
-                      C78,79 74,82 69,82
-                      L39,82
-                      C34,82 30,79 30,74
+                      M29,30
+                      C29,26 32,23 36,23
+                      L72,23
+                      C76,23 79,26 79,30
+                      L79,78
+                      C79,82 76,85 72,85
+                      L36,85
+                      C32,85 29,82 29,78
                       Z" />
+
 
               <!-- Vault top -->
+
               <path
                   android:fillColor="#171717"
                   android:pathData="
-                      M36,37
-                      L72,37
-                      L72,44
-                      L36,44
+                      M34,34
+                      L74,34
+                      L74,42
+                      L34,42
                       Z" />
+
 
               <!-- Vault dial -->
+
               <path
                   android:fillColor="#171717"
                   android:pathData="
-                      M54,46
-                      C47,46 42,51 42,57
-                      C42,64 47,69 54,69
-                      C61,69 66,64 66,57
-                      C66,51 61,46 54,46
+                      M54,43
+                      C46,43 40,49 40,57
+                      C40,65 46,71 54,71
+                      C62,71 68,65 68,57
+                      C68,49 62,43 54,43
                       Z" />
 
-              <!-- Dial center -->
+
               <path
                   android:fillColor="#F7F7F5"
                   android:pathData="
-                      M54,51
-                      C51,51 49,54 49,57
-                      C49,60 51,63 54,63
-                      C57,63 59,60 59,57
-                      C59,54 57,51 54,51
+                      M54,49
+                      C49,49 46,52 46,57
+                      C46,62 49,65 54,65
+                      C59,65 62,62 62,57
+                      C62,52 59,49 54,49
                       Z" />
 
-              <!-- Handle -->
+
+              <!-- Vault handle -->
+
               <path
                   android:fillColor="#171717"
                   android:pathData="
-                      M66,54
-                      L78,54
-                      L78,62
-                      L66,62
-                      C63,62 61,60 61,58
-                      C61,56 63,54 66,54
+                      M67,54
+                      L79,54
+                      L79,62
+                      L67,62
+                      C65,62 63,60 63,58
+                      C63,56 65,54 67,54
                       Z" />
 
           </vector>
           EOF
 
 
+      # ---------------------------------------------------------
+      # MAIN ACTIVITY
+      # ---------------------------------------------------------
+
       - name: Create MainActivity
         shell: bash
         run: |
-
           cat > app/src/main/java/com/kaushal/memoryvault/MainActivity.kt <<'EOF'
-
           package com.kaushal.memoryvault
 
           import android.animation.Animator
           import android.animation.AnimatorListenerAdapter
           import android.animation.AnimatorSet
           import android.animation.ObjectAnimator
+          import android.content.Context
+          import android.content.Intent
+          import android.net.Uri
           import android.os.Bundle
           import android.os.Handler
           import android.os.Looper
           import android.view.View
 
           import androidx.activity.ComponentActivity
+          import androidx.activity.compose.rememberLauncherForActivityResult
           import androidx.activity.compose.setContent
+          import androidx.activity.result.contract.ActivityResultContracts
 
-          import androidx.compose.animation.Crossfade
+          import androidx.compose.animation.AnimatedContent
           import androidx.compose.animation.AnimatedVisibility
           import androidx.compose.animation.fadeIn
+          import androidx.compose.animation.fadeOut
+          import androidx.compose.animation.slideInVertically
+          import androidx.compose.animation.slideOutVertically
           import androidx.compose.animation.core.animateFloatAsState
           import androidx.compose.animation.core.tween
 
+          import androidx.compose.foundation.background
           import androidx.compose.foundation.clickable
           import androidx.compose.foundation.layout.Arrangement
           import androidx.compose.foundation.layout.Box
@@ -323,14 +388,23 @@ jobs:
           import androidx.compose.foundation.lazy.LazyColumn
           import androidx.compose.foundation.lazy.items
 
+          import androidx.compose.foundation.shape.CircleShape
           import androidx.compose.foundation.shape.RoundedCornerShape
 
           import androidx.compose.material.icons.Icons
+
+          import androidx.compose.material.icons.filled.Favorite
+          import androidx.compose.material.icons.filled.GridView
+          import androidx.compose.material.icons.filled.Home
+          import androidx.compose.material.icons.filled.Person
+
           import androidx.compose.material.icons.outlined.Add
+          import androidx.compose.material.icons.outlined.ArrowBack
           import androidx.compose.material.icons.outlined.ArrowForward
           import androidx.compose.material.icons.outlined.AutoAwesome
           import androidx.compose.material.icons.outlined.BookmarkBorder
           import androidx.compose.material.icons.outlined.Close
+          import androidx.compose.material.icons.outlined.Event
           import androidx.compose.material.icons.outlined.Favorite
           import androidx.compose.material.icons.outlined.FavoriteBorder
           import androidx.compose.material.icons.outlined.GridView
@@ -339,12 +413,13 @@ jobs:
           import androidx.compose.material.icons.outlined.Movie
           import androidx.compose.material.icons.outlined.Person
           import androidx.compose.material.icons.outlined.Search
+          import androidx.compose.material.icons.outlined.CalendarMonth
 
           import androidx.compose.material3.AlertDialog
           import androidx.compose.material3.Button
           import androidx.compose.material3.Card
           import androidx.compose.material3.CardDefaults
-          import androidx.compose.material3.FloatingActionButton
+          import androidx.compose.material3.Dialog
           import androidx.compose.material3.Icon
           import androidx.compose.material3.IconButton
           import androidx.compose.material3.NavigationBar
@@ -367,31 +442,54 @@ jobs:
           import androidx.compose.ui.Modifier
           import androidx.compose.ui.draw.scale
           import androidx.compose.ui.graphics.Color
+          import androidx.compose.ui.graphics.vector.ImageVector
+          import androidx.compose.ui.platform.LocalContext
           import androidx.compose.ui.text.font.FontWeight
           import androidx.compose.ui.unit.dp
           import androidx.compose.ui.unit.sp
+          import androidx.compose.ui.window.DialogProperties
 
           import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+
+          import org.json.JSONArray
+          import org.json.JSONObject
 
           import kotlinx.coroutines.delay
 
 
+          // =====================================================
+          // COLORS
+          // =====================================================
+
           private val AppBackground = Color(0xFFF7F7F5)
           private val AppText = Color(0xFF171717)
           private val AppSecondary = Color(0xFF707070)
-          private val AppAccent = Color(0xFF171717)
           private val CardWhite = Color.White
+          private val AppAccent = Color(0xFF171717)
           private val SoftPurple = Color(0xFFEDE7FF)
+          private val SoftGray = Color(0xFFF0F0EE)
 
+
+          // =====================================================
+          // DATA
+          // =====================================================
 
           data class Memory(
-              val id: Int,
+              val id: Long,
               val type: String,
               val title: String,
               val description: String,
-              val saved: Boolean = false
+              val mediaUri: String = "",
+              val eventDate: String = "",
+              val eventTime: String = "",
+              val saved: Boolean = false,
+              val createdAt: Long = System.currentTimeMillis()
           )
 
+
+          // =====================================================
+          // MAIN ACTIVITY
+          // =====================================================
 
           class MainActivity : ComponentActivity() {
 
@@ -407,14 +505,15 @@ jobs:
 
                   splashScreen.setOnExitAnimationListener { splashView ->
 
-                      val icon = splashView.iconView
+                      val icon =
+                          splashView.iconView
 
                       val scaleX =
                           ObjectAnimator.ofFloat(
                               icon,
                               View.SCALE_X,
                               1f,
-                              0.75f
+                              0.82f
                           )
 
                       val scaleY =
@@ -422,7 +521,7 @@ jobs:
                               icon,
                               View.SCALE_Y,
                               1f,
-                              0.75f
+                              0.82f
                           )
 
                       val alpha =
@@ -443,31 +542,21 @@ jobs:
                               alpha
                           )
 
-                          interpolator =
-                              android.view.animation.DecelerateInterpolator()
-
-                          addListener(
-                              object : AnimatorListenerAdapter() {
-
-                                  override fun onAnimationEnd(
-                                      animation: Animator
-                                  ) {
-                                      splashView.remove()
-                                  }
-
-                              }
-                          )
+                          doOnEnd {
+                              splashView.remove()
+                          }
 
                           start()
                       }
                   }
 
-                  Handler(Looper.getMainLooper()).postDelayed(
-                      {
-                          splashFinished = true
-                      },
-                      800
-                  )
+                  Handler(
+                      Looper.getMainLooper()
+                  ).postDelayed({
+
+                      splashFinished = true
+
+                  }, 800)
 
                   super.onCreate(savedInstanceState)
 
@@ -478,15 +567,26 @@ jobs:
           }
 
 
+          // =====================================================
+          // APP
+          // =====================================================
+
           @Composable
           fun MemoryVaultApp() {
+
+              val context =
+                  LocalContext.current
 
               var selectedTab by remember {
                   mutableIntStateOf(0)
               }
 
-              var showAddDialog by remember {
+              var searchOpen by remember {
                   mutableStateOf(false)
+              }
+
+              var addType by remember {
+                  mutableStateOf<String?>(null)
               }
 
               var selectedMemory by remember {
@@ -498,41 +598,36 @@ jobs:
               }
 
               var memories by remember {
-
                   mutableStateOf(
-                      listOf(
+                      loadMemories(context)
+                  )
+              }
 
-                          Memory(
-                              1,
-                              "AI PROMPT",
-                              "Cinematic portrait prompt",
-                              "A prompt with reference images and notes."
-                          ),
-
-                          Memory(
-                              2,
-                              "IMAGE",
-                              "A frame I want to remember",
-                              "Saved with the story behind the image."
-                          ),
-
-                          Memory(
-                              3,
-                              "VIDEO",
-                              "Editing technique",
-                              "Saved from an external platform."
-                          )
-
-                      )
+              var recentSearches by remember {
+                  mutableStateOf(
+                      loadSearches(context)
                   )
               }
 
 
               LaunchedEffect(Unit) {
 
-                  delay(150)
+                  delay(120)
 
                   appVisible = true
+              }
+
+
+              fun updateMemories(
+                  newList: List<Memory>
+              ) {
+
+                  memories = newList
+
+                  saveMemories(
+                      context,
+                      newList
+                  )
               }
 
 
@@ -548,26 +643,30 @@ jobs:
               AnimatedVisibility(
                   visible = appVisible,
                   enter = fadeIn(
-                      animationSpec = tween(350)
+                      tween(350)
                   )
               ) {
 
                   Scaffold(
 
-                      containerColor = AppBackground,
+                      containerColor =
+                          AppBackground,
 
                       bottomBar = {
 
                           NavigationBar(
-                              containerColor = Color.White,
-                              tonalElevation = 0.dp
+                              containerColor =
+                                  Color.White,
+
+                              tonalElevation =
+                                  0.dp
                           ) {
 
                               tabs.forEachIndexed {
-                                  index,
-                                  title ->
+                                      index,
+                                      title ->
 
-                                  val icon =
+                                  val outlineIcon =
                                       when (index) {
 
                                           0 ->
@@ -584,6 +683,23 @@ jobs:
                                       }
 
 
+                                  val filledIcon =
+                                      when (index) {
+
+                                          0 ->
+                                              Icons.Filled.Home
+
+                                          1 ->
+                                              Icons.Filled.GridView
+
+                                          2 ->
+                                              Icons.Filled.Favorite
+
+                                          else ->
+                                              Icons.Filled.Person
+                                      }
+
+
                                   val iconScale by
                                       animateFloatAsState(
 
@@ -591,23 +707,25 @@ jobs:
                                               if (
                                                   selectedTab ==
                                                   index
-                                              )
-                                                  1.12f
-                                              else
-                                                  1f,
+                                              ) {
+                                                  1.08f
+                                              } else {
+                                                  1f
+                                              },
 
                                           animationSpec =
                                               tween(180),
 
                                           label =
-                                              "navIconScale"
+                                              "tabScale"
                                       )
 
 
                                   NavigationBarItem(
 
                                       selected =
-                                          selectedTab == index,
+                                          selectedTab ==
+                                              index,
 
                                       onClick = {
 
@@ -620,7 +738,14 @@ jobs:
                                           Icon(
 
                                               imageVector =
-                                                  icon,
+                                                  if (
+                                                      selectedTab ==
+                                                      index
+                                                  ) {
+                                                      filledIcon
+                                                  } else {
+                                                      outlineIcon
+                                                  },
 
                                               contentDescription =
                                                   title,
@@ -628,74 +753,63 @@ jobs:
                                               modifier =
                                                   Modifier
                                                       .size(23.dp)
-                                                      .scale(iconScale)
+                                                      .scale(
+                                                          iconScale
+                                                      )
                                           )
                                       },
 
                                       label = {
 
                                           Text(
-                                              text = title,
-                                              fontSize = 12.sp
+                                              title,
+                                              fontSize =
+                                                  12.sp
                                           )
                                       }
                                   )
                               }
                           }
-                      },
-
-
-                      floatingActionButton = {
-
-                          FloatingActionButton(
-
-                              onClick = {
-                                  showAddDialog = true
-                              },
-
-                              containerColor =
-                                  AppAccent,
-
-                              contentColor =
-                                  Color.White,
-
-                              shape =
-                                  RoundedCornerShape(18.dp)
-                          ) {
-
-                              Icon(
-
-                                  imageVector =
-                                      Icons.Outlined.Add,
-
-                                  contentDescription =
-                                      "Add memory",
-
-                                  modifier =
-                                      Modifier.size(27.dp)
-                              )
-                          }
                       }
 
                   ) { padding ->
 
-
-                      Crossfade(
+                      AnimatedContent(
 
                           targetState =
                               selectedTab,
 
-                          animationSpec =
-                              tween(220),
-
                           modifier =
-                              Modifier.padding(padding),
+                              Modifier.padding(
+                                  padding
+                              ),
+
+                          transitionSpec = {
+
+                              fadeIn(
+                                  tween(220)
+                              ) + slideInVertically(
+                                  initialOffsetY = {
+                                      it / 15
+                                  },
+                                  animationSpec =
+                                      tween(220)
+                              ) togetherWith
+                                  fadeOut(
+                                      tween(160)
+                                  ) + slideOutVertically(
+                                      targetOffsetY = {
+                                          -it / 15
+                                      },
+                                      animationSpec =
+                                          tween(160)
+                                  )
+                          },
 
                           label =
-                              "screenTransition"
+                              "tabTransition"
 
                       ) { tab ->
-
 
                           when (tab) {
 
@@ -706,12 +820,19 @@ jobs:
                                       memories =
                                           memories,
 
+                                      onSearch = {
+                                          searchOpen =
+                                              true
+                                      },
+
                                       onOpen = {
-                                          selectedMemory = it
+                                          selectedMemory =
+                                              it
                                       },
 
                                       onSeeAll = {
-                                          selectedTab = 1
+                                          selectedTab =
+                                              1
                                       }
                                   )
                               }
@@ -721,11 +842,9 @@ jobs:
 
                                   LibraryScreen(
 
-                                      memories =
-                                          memories,
-
-                                      onOpen = {
-                                          selectedMemory = it
+                                      onTypeSelected = {
+                                          addType =
+                                              it
                                       }
                                   )
                               }
@@ -739,7 +858,8 @@ jobs:
                                           memories,
 
                                       onOpen = {
-                                          selectedMemory = it
+                                          selectedMemory =
+                                              it
                                       }
                                   )
                               }
@@ -747,7 +867,10 @@ jobs:
 
                               else -> {
 
-                                  ProfileScreen()
+                                  ProfileScreen(
+                                      memories =
+                                          memories
+                                  )
                               }
                           }
                       }
@@ -755,107 +878,174 @@ jobs:
               }
 
 
-              if (showAddDialog) {
+              // -------------------------------------------------
+              // SEARCH LAYER
+              // -------------------------------------------------
 
-                  AddMemoryDialog(
+              if (searchOpen) {
 
-                      onDismiss = {
-                          showAddDialog = false
+                  SearchLayer(
+
+                      memories =
+                          memories,
+
+                      recentSearches =
+                          recentSearches,
+
+                      onClose = {
+                          searchOpen =
+                              false
                       },
 
-                      onAdd = {
-                          type,
-                          title,
-                          description ->
+                      onOpenMemory = {
 
-                          val newId =
-                              (memories.maxOfOrNull {
-                                  it.id
-                              } ?: 0) + 1
+                          selectedMemory =
+                              it
 
-                          memories =
-                              memories +
-                                      Memory(
-                                          id = newId,
-                                          type = type,
-                                          title = title,
-                                          description =
-                                              description
-                                      )
+                          searchOpen =
+                              false
+                      },
 
-                          showAddDialog = false
+                      onSearchUsed = { query ->
+
+                          if (
+                              query.isNotBlank()
+                          ) {
+
+                              val updated =
+                                  listOf(query) +
+                                      recentSearches
+                                          .filter {
+                                              !it.equals(
+                                                  query,
+                                                  ignoreCase =
+                                                      true
+                                              )
+                                          }
+
+                              recentSearches =
+                                  updated.take(8)
+
+                              saveSearches(
+                                  context,
+                                  recentSearches
+                              )
+                          }
                       }
                   )
               }
 
 
+              // -------------------------------------------------
+              // ADD MEMORY
+              // -------------------------------------------------
+
+              addType?.let { type ->
+
+                  AddMemoryDialog(
+
+                      type = type,
+
+                      onDismiss = {
+                          addType =
+                              null
+                      },
+
+                      onAdd = { memory ->
+
+                          updateMemories(
+                              memories +
+                                  memory
+                          )
+
+                          addType =
+                              null
+                      }
+                  )
+              }
+
+
+              // -------------------------------------------------
+              // DETAIL
+              // -------------------------------------------------
+
               selectedMemory?.let { memory ->
 
                   MemoryDetailDialog(
 
-                      memory = memory,
+                      memory =
+                          memories.firstOrNull {
+                              it.id == memory.id
+                          } ?: memory,
 
                       onDismiss = {
-                          selectedMemory = null
+                          selectedMemory =
+                              null
                       },
 
                       onToggleSaved = {
 
-                          val updatedSaved =
-                              !memory.saved
-
-                          memories =
+                          val updated =
                               memories.map {
 
                                   if (
                                       it.id ==
                                       memory.id
                                   ) {
+
                                       it.copy(
                                           saved =
-                                              updatedSaved
+                                              !it.saved
                                       )
+
                                   } else {
                                       it
                                   }
                               }
 
+                          updateMemories(
+                              updated
+                          )
+
                           selectedMemory =
-                              memory.copy(
-                                  saved =
-                                      updatedSaved
-                              )
+                              updated.firstOrNull {
+                                  it.id ==
+                                      memory.id
+                              }
                       }
                   )
               }
           }
 
 
+          // =====================================================
+          // HOME
+          // =====================================================
+
           @Composable
           fun HomeScreen(
               memories: List<Memory>,
+              onSearch: () -> Unit,
               onOpen: (Memory) -> Unit,
               onSeeAll: () -> Unit
           ) {
 
-              var searchQuery by remember {
-                  mutableStateOf("")
-              }
+              val recent =
+                  memories
+                      .sortedByDescending {
+                          it.createdAt
+                      }
+                      .take(4)
 
-
-              val filteredMemories =
-                  memories.filter {
-
-                      it.title.contains(
-                          searchQuery,
-                          ignoreCase = true
-                      ) ||
-
-                              it.description.contains(
-                                  searchQuery,
-                                  ignoreCase = true
-                              )
-                  }
+              val latestSaved =
+                  memories
+                      .filter {
+                          it.saved
+                      }
+                      .sortedByDescending {
+                          it.createdAt
+                      }
+                      .take(3)
 
 
               LazyColumn(
@@ -868,19 +1058,19 @@ jobs:
                           ),
 
                   verticalArrangement =
-                      Arrangement.spacedBy(14.dp)
+                      Arrangement.spacedBy(
+                          14.dp
+                      )
               ) {
-
 
                   item {
 
                       Spacer(
-                          modifier =
-                              Modifier.height(22.dp)
+                          Modifier.height(22.dp)
                       )
 
                       Text(
-                          text = "Memory Vault",
+                          "Memory Vault",
                           color = AppText,
                           fontSize = 29.sp,
                           fontWeight =
@@ -888,139 +1078,206 @@ jobs:
                       )
 
                       Spacer(
-                          modifier =
-                              Modifier.height(4.dp)
+                          Modifier.height(4.dp)
                       )
 
                       Text(
-                          text =
-                              "Keep the things worth remembering.",
-                          color = AppSecondary,
+                          "Keep the things worth remembering.",
+                          color =
+                              AppSecondary,
                           fontSize = 15.sp
                       )
-                  }
-
-
-                  item {
 
                       Spacer(
-                          modifier =
-                              Modifier.height(6.dp)
+                          Modifier.height(18.dp)
                       )
 
-                      OutlinedTextField(
 
-                          value =
-                              searchQuery,
-
-                          onValueChange = {
-                              searchQuery = it
-                          },
+                      // Search button
+                      Surface(
 
                           modifier =
-                              Modifier.fillMaxWidth(),
-
-                          singleLine = true,
+                              Modifier
+                                  .fillMaxWidth()
+                                  .clickable {
+                                      onSearch()
+                                  },
 
                           shape =
-                              RoundedCornerShape(18.dp),
+                              RoundedCornerShape(
+                                  18.dp
+                              ),
 
-                          leadingIcon = {
+                          color =
+                              Color.White
+                      ) {
+
+                          Row(
+
+                              modifier =
+                                  Modifier.padding(
+                                      17.dp
+                                  ),
+
+                              verticalAlignment =
+                                  Alignment.CenterVertically
+                          ) {
 
                               Icon(
                                   Icons.Outlined.Search,
                                   contentDescription =
-                                      "Search"
+                                      "Search",
+                                  tint =
+                                      AppText,
+                                  modifier =
+                                      Modifier.size(
+                                          25.dp
+                                      )
                               )
-                          },
 
-                          placeholder = {
+                              Spacer(
+                                  Modifier.size(
+                                      12.dp
+                                  )
+                              )
+
                               Text(
-                                  "Search your memories"
+                                  "Search your memories",
+                                  color =
+                                      AppSecondary,
+                                  fontSize =
+                                      16.sp
                               )
                           }
-                      )
+                      }
                   }
 
+
+                  // ------------------------------------------------
+                  // RECENT MEMORIES
+                  // ------------------------------------------------
 
                   item {
 
                       Row(
-
                           modifier =
                               Modifier.fillMaxWidth(),
-
                           verticalAlignment =
                               Alignment.CenterVertically
                       ) {
 
                           Text(
-
-                              text =
-                                  "Recent Memories",
-
+                              "Recent Memories",
                               color =
                                   AppText,
-
                               fontSize =
                                   20.sp,
-
                               fontWeight =
                                   FontWeight.SemiBold,
-
                               modifier =
-                                  Modifier.weight(1f)
+                                  Modifier.weight(
+                                      1f
+                                  )
                           )
 
-
                           TextButton(
-                              onClick = onSeeAll
+                              onClick =
+                                  onSeeAll
                           ) {
-
-                              Text(
-                                  "See all"
-                              )
+                              Text("See all")
                           }
                       }
                   }
 
 
                   if (
-                      filteredMemories.isEmpty()
+                      recent.isEmpty()
                   ) {
 
                       item {
 
                           EmptyState(
-
                               title =
-                                  "No memories found",
-
+                                  "No memories yet",
                               subtitle =
-                                  "Try another search."
+                                  "Open Library to store your first memory."
                           )
                       }
 
                   } else {
 
                       items(
-
-                          items =
-                              filteredMemories,
-
+                          recent,
                           key = {
                               it.id
                           }
-
                       ) { memory ->
 
                           MemoryCard(
-
                               memory =
                                   memory,
-
                               onClick = {
-                                  onOpen(memory)
+                                  onOpen(
+                                      memory
+                                  )
+                              }
+                          )
+                      }
+                  }
+
+
+                  // ------------------------------------------------
+                  // LATEST SAVED
+                  // ------------------------------------------------
+
+                  item {
+
+                      Spacer(
+                          Modifier.height(6.dp)
+                      )
+
+                      Text(
+                          "Latest Saved",
+                          color =
+                              AppText,
+                          fontSize =
+                              20.sp,
+                          fontWeight =
+                              FontWeight.SemiBold
+                      )
+                  }
+
+
+                  if (
+                      latestSaved.isEmpty()
+                  ) {
+
+                      item {
+
+                          EmptyState(
+                              title =
+                                  "Nothing saved yet",
+                              subtitle =
+                                  "Open a memory and tap Save."
+                          )
+                      }
+
+                  } else {
+
+                      items(
+                          latestSaved,
+                          key = {
+                              "saved_${it.id}"
+                          }
+                      ) { memory ->
+
+                          MemoryCard(
+                              memory =
+                                  memory,
+                              onClick = {
+                                  onOpen(
+                                      memory
+                                  )
                               }
                           )
                       }
@@ -1030,21 +1287,15 @@ jobs:
                   item {
 
                       Spacer(
-                          modifier =
-                              Modifier.height(8.dp)
+                          Modifier.height(20.dp)
                       )
 
                       Text(
-
-                          text =
-                              "Everything you save has a reason.",
-
+                          "Your memories stay organized in one place.",
                           color =
                               AppSecondary,
-
                           fontSize =
                               14.sp,
-
                           modifier =
                               Modifier.padding(
                                   bottom = 30.dp
@@ -1055,10 +1306,13 @@ jobs:
           }
 
 
+          // =====================================================
+          // LIBRARY
+          // =====================================================
+
           @Composable
           fun LibraryScreen(
-              memories: List<Memory>,
-              onOpen: (Memory) -> Unit
+              onTypeSelected: (String) -> Unit
           ) {
 
               LazyColumn(
@@ -1066,62 +1320,293 @@ jobs:
                   modifier =
                       Modifier
                           .fillMaxSize()
-                          .padding(20.dp),
+                          .padding(
+                              horizontal = 20.dp
+                          ),
 
                   verticalArrangement =
-                      Arrangement.spacedBy(14.dp)
+                      Arrangement.spacedBy(
+                          14.dp
+                      )
               ) {
 
                   item {
 
                       Spacer(
-                          modifier =
-                              Modifier.height(18.dp)
+                          Modifier.height(22.dp)
                       )
 
                       Text(
-                          text = "Library",
-                          fontSize = 29.sp,
-                          fontWeight =
-                              FontWeight.SemiBold,
-                          color = AppText
-                      )
-
-                      Text(
-                          text =
-                              "All your memories in one place.",
+                          "Library",
                           color =
-                              AppSecondary,
-                          fontSize = 15.sp
+                              AppText,
+                          fontSize =
+                              29.sp,
+                          fontWeight =
+                              FontWeight.SemiBold
                       )
 
                       Spacer(
-                          modifier =
-                              Modifier.height(12.dp)
+                          Modifier.height(4.dp)
+                      )
+
+                      Text(
+                          "Choose what you want to store.",
+                          color =
+                              AppSecondary,
+                          fontSize =
+                              15.sp
+                      )
+
+                      Spacer(
+                          Modifier.height(14.dp)
                       )
                   }
 
 
-                  items(
-                      memories,
-                      key = {
-                          it.id
-                      }
-                  ) { memory ->
+                  item {
 
-                      MemoryCard(
+                      LibraryTypeCard(
 
-                          memory =
-                              memory,
+                          icon =
+                              Icons.Outlined.AutoAwesome,
+
+                          title =
+                              "Prompt",
+
+                          description =
+                              "Store prompts with reference images and notes.",
 
                           onClick = {
-                              onOpen(memory)
+                              onTypeSelected(
+                                  "PROMPT"
+                              )
                           }
+                      )
+                  }
+
+
+                  item {
+
+                      LibraryTypeCard(
+
+                          icon =
+                              Icons.Outlined.Image,
+
+                          title =
+                              "Photo",
+
+                          description =
+                              "Upload or store important photos with their details.",
+
+                          onClick = {
+                              onTypeSelected(
+                                  "PHOTO"
+                              )
+                          }
+                      )
+                  }
+
+
+                  item {
+
+                      LibraryTypeCard(
+
+                          icon =
+                              Icons.Outlined.Movie,
+
+                          title =
+                              "Video",
+
+                          description =
+                              "Store videos, clips and editing references.",
+
+                          onClick = {
+                              onTypeSelected(
+                                  "VIDEO"
+                              )
+                          }
+                      )
+                  }
+
+
+                  item {
+
+                      LibraryTypeCard(
+
+                          icon =
+                              Icons.Outlined.Event,
+
+                          title =
+                              "Event",
+
+                          description =
+                              "Save an event, date, time or anything outside the other categories.",
+
+                          onClick = {
+                              onTypeSelected(
+                                  "EVENT"
+                              )
+                          }
+                      )
+                  }
+
+
+                  item {
+
+                      Spacer(
+                          Modifier.height(
+                              20.dp
+                          )
                       )
                   }
               }
           }
 
+
+          // =====================================================
+          // LIBRARY TYPE CARD
+          // =====================================================
+
+          @Composable
+          fun LibraryTypeCard(
+              icon: ImageVector,
+              title: String,
+              description: String,
+              onClick: () -> Unit
+          ) {
+
+              Card(
+
+                  modifier =
+                      Modifier
+                          .fillMaxWidth()
+                          .clickable {
+                              onClick()
+                          },
+
+                  shape =
+                      RoundedCornerShape(
+                          20.dp
+                      ),
+
+                  colors =
+                      CardDefaults.cardColors(
+                          containerColor =
+                              CardWhite
+                      ),
+
+                  elevation =
+                      CardDefaults.cardElevation(
+                          defaultElevation =
+                              0.dp
+                      )
+              ) {
+
+                  Row(
+
+                      modifier =
+                          Modifier.padding(
+                              18.dp
+                          ),
+
+                      verticalAlignment =
+                          Alignment.CenterVertically
+                  ) {
+
+                      Surface(
+
+                          modifier =
+                              Modifier.size(
+                                  54.dp
+                              ),
+
+                          shape =
+                              RoundedCornerShape(
+                                  16.dp
+                              ),
+
+                          color =
+                              SoftGray
+                      ) {
+
+                          Box(
+                              contentAlignment =
+                                  Alignment.Center
+                          ) {
+
+                              Icon(
+                                  icon,
+                                  contentDescription =
+                                      null,
+                                  tint =
+                                      AppText,
+                                  modifier =
+                                      Modifier.size(
+                                          28.dp
+                                      )
+                              )
+                          }
+                      }
+
+
+                      Spacer(
+                          Modifier.size(
+                              16.dp
+                          )
+                      )
+
+
+                      Column(
+                          modifier =
+                              Modifier.weight(
+                                  1f
+                              )
+                      ) {
+
+                          Text(
+                              title,
+                              color =
+                                  AppText,
+                              fontSize =
+                                  19.sp,
+                              fontWeight =
+                                  FontWeight.SemiBold
+                          )
+
+                          Spacer(
+                              Modifier.height(
+                                  5.dp
+                              )
+                          )
+
+                          Text(
+                              description,
+                              color =
+                                  AppSecondary,
+                              fontSize =
+                                  14.sp,
+                              lineHeight =
+                                  20.sp
+                          )
+                      }
+
+
+                      Icon(
+                          Icons.Outlined.ArrowForward,
+                          contentDescription =
+                              "Open",
+                          tint =
+                              AppText
+                      )
+                  }
+              }
+          }
+
+
+          // =====================================================
+          // SAVED
+          // =====================================================
 
           @Composable
           fun SavedScreen(
@@ -1130,9 +1615,13 @@ jobs:
           ) {
 
               val saved =
-                  memories.filter {
-                      it.saved
-                  }
+                  memories
+                      .filter {
+                          it.saved
+                      }
+                      .sortedByDescending {
+                          it.createdAt
+                      }
 
 
               LazyColumn(
@@ -1140,51 +1629,65 @@ jobs:
                   modifier =
                       Modifier
                           .fillMaxSize()
-                          .padding(20.dp),
+                          .padding(
+                              horizontal = 20.dp
+                          ),
 
                   verticalArrangement =
-                      Arrangement.spacedBy(14.dp)
+                      Arrangement.spacedBy(
+                          14.dp
+                      )
               ) {
 
                   item {
 
                       Spacer(
-                          modifier =
-                              Modifier.height(18.dp)
+                          Modifier.height(
+                              22.dp
+                          )
                       )
 
                       Text(
-                          text = "Saved",
-                          fontSize = 29.sp,
-                          fontWeight =
-                              FontWeight.SemiBold,
-                          color = AppText
-                      )
-
-                      Text(
-                          text =
-                              "Your favorite memories.",
+                          "Saved",
                           color =
-                              AppSecondary,
-                          fontSize = 15.sp
+                              AppText,
+                          fontSize =
+                              29.sp,
+                          fontWeight =
+                              FontWeight.SemiBold
                       )
 
                       Spacer(
-                          modifier =
-                              Modifier.height(12.dp)
+                          Modifier.height(
+                              4.dp
+                          )
+                      )
+
+                      Text(
+                          "Your saved memories.",
+                          color =
+                              AppSecondary,
+                          fontSize =
+                              15.sp
+                      )
+
+                      Spacer(
+                          Modifier.height(
+                              12.dp
+                          )
                       )
                   }
 
 
-                  if (saved.isEmpty()) {
+                  if (
+                      saved.isEmpty()
+                  ) {
 
                       item {
 
                           EmptyState(
-
                               title =
                                   "Nothing saved yet",
-
                               subtitle =
                                   "Open a memory and tap Save."
                           )
@@ -1193,22 +1696,19 @@ jobs:
                   } else {
 
                       items(
-
                           saved,
-
                           key = {
                               it.id
                           }
-
                       ) { memory ->
 
                           MemoryCard(
-
                               memory =
                                   memory,
-
                               onClick = {
-                                  onOpen(memory)
+                                  onOpen(
+                                      memory
+                                  )
                               }
                           )
                       }
@@ -1217,101 +1717,208 @@ jobs:
           }
 
 
+          // =====================================================
+          // PROFILE
+          // =====================================================
+
           @Composable
-          fun ProfileScreen() {
+          fun ProfileScreen(
+              memories: List<Memory>
+          ) {
+
+              val savedCount =
+                  memories.count {
+                      it.saved
+                  }
+
 
               Column(
 
                   modifier =
                       Modifier
                           .fillMaxSize()
-                          .padding(20.dp),
+                          .padding(
+                              20.dp
+                          ),
 
                   horizontalAlignment =
-                      Alignment.CenterHorizontally,
-
-                  verticalArrangement =
-                      Arrangement.Center
+                      Alignment.CenterHorizontally
               ) {
+
+                  Spacer(
+                      Modifier.height(
+                          35.dp
+                      )
+                  )
 
 
                   Surface(
 
                       modifier =
-                          Modifier.size(92.dp),
+                          Modifier.size(
+                              100.dp
+                          ),
 
                       shape =
-                          RoundedCornerShape(30.dp),
+                          CircleShape,
 
                       color =
                           SoftPurple
                   ) {
 
                       Box(
-
                           contentAlignment =
                               Alignment.Center
                       ) {
 
                           Icon(
-
-                              imageVector =
-                                  Icons.Outlined.Person,
-
+                              Icons.Outlined.Person,
                               contentDescription =
                                   "Profile",
-
                               tint =
                                   AppText,
-
                               modifier =
-                                  Modifier.size(44.dp)
+                                  Modifier.size(
+                                      50.dp
+                                  )
                           )
                       }
                   }
 
 
                   Spacer(
-                      modifier =
-                          Modifier.height(18.dp)
+                      Modifier.height(
+                          18.dp
+                      )
                   )
 
 
                   Text(
-
-                      text = "Profile",
-
+                      "Memory Vault",
                       color =
                           AppText,
-
                       fontSize =
-                          29.sp,
-
+                          27.sp,
                       fontWeight =
                           FontWeight.SemiBold
                   )
 
 
                   Spacer(
-                      modifier =
-                          Modifier.height(6.dp)
+                      Modifier.height(
+                          6.dp
+                      )
                   )
 
 
                   Text(
-
-                      text =
-                          "Your personal memory space.",
-
+                      "Your personal memory space.",
                       color =
                           AppSecondary,
-
                       fontSize =
                           15.sp
                   )
+
+
+                  Spacer(
+                      Modifier.height(
+                          30.dp
+                      )
+                  )
+
+
+                  Row(
+                      modifier =
+                          Modifier.fillMaxWidth(),
+                      horizontalArrangement =
+                          Arrangement.spacedBy(
+                              12.dp
+                          )
+                  ) {
+
+                      ProfileStat(
+                          value =
+                              memories.size.toString(),
+                          label =
+                              "Memories",
+                          modifier =
+                              Modifier.weight(
+                                  1f
+                              )
+                      )
+
+                      ProfileStat(
+                          value =
+                              savedCount.toString(),
+                          label =
+                              "Saved",
+                          modifier =
+                              Modifier.weight(
+                                  1f
+                              )
+                      )
+                  }
               }
           }
 
+
+          @Composable
+          fun ProfileStat(
+              value: String,
+              label: String,
+              modifier: Modifier
+          ) {
+
+              Surface(
+
+                  modifier =
+                      modifier,
+
+                  shape =
+                      RoundedCornerShape(
+                          18.dp
+                      ),
+
+                  color =
+                      Color.White
+              ) {
+
+                  Column(
+
+                      modifier =
+                          Modifier.padding(
+                              18.dp
+                          ),
+
+                      horizontalAlignment =
+                          Alignment.CenterHorizontally
+                  ) {
+
+                      Text(
+                          value,
+                          color =
+                              AppText,
+                          fontSize =
+                              24.sp,
+                          fontWeight =
+                              FontWeight.Bold
+                      )
+
+                      Text(
+                          label,
+                          color =
+                              AppSecondary,
+                          fontSize =
+                              13.sp
+                      )
+                  }
+              }
+          }
+
+
+          // =====================================================
+          // MEMORY CARD
+          // =====================================================
 
           @Composable
           fun MemoryCard(
@@ -1320,14 +1927,16 @@ jobs:
           ) {
 
               val icon =
-
                   when (memory.type) {
 
-                      "IMAGE" ->
+                      "PHOTO" ->
                           Icons.Outlined.Image
 
                       "VIDEO" ->
                           Icons.Outlined.Movie
+
+                      "EVENT" ->
+                          Icons.Outlined.Event
 
                       else ->
                           Icons.Outlined.AutoAwesome
@@ -1344,7 +1953,9 @@ jobs:
                           },
 
                   shape =
-                      RoundedCornerShape(18.dp),
+                      RoundedCornerShape(
+                          18.dp
+                      ),
 
                   colors =
                       CardDefaults.cardColors(
@@ -1359,194 +1970,563 @@ jobs:
                       )
               ) {
 
-
                   Column(
-
                       modifier =
-                          Modifier.padding(18.dp)
+                          Modifier.padding(
+                              18.dp
+                          )
                   ) {
 
-
                       Row(
-
                           verticalAlignment =
                               Alignment.CenterVertically
                       ) {
 
-
                           Surface(
 
                               modifier =
-                                  Modifier.size(40.dp),
+                                  Modifier.size(
+                                      42.dp
+                                  ),
 
                               shape =
-                                  RoundedCornerShape(12.dp),
+                                  RoundedCornerShape(
+                                      12.dp
+                                  ),
 
                               color =
-                                  Color(0xFFF0F0EE)
+                                  SoftGray
                           ) {
 
                               Box(
-
                                   contentAlignment =
                                       Alignment.Center
                               ) {
 
                                   Icon(
-
-                                      imageVector =
-                                          icon,
-
+                                      icon,
                                       contentDescription =
                                           null,
-
-                                      modifier =
-                                          Modifier.size(21.dp),
-
                                       tint =
-                                          AppText
+                                          AppText,
+                                      modifier =
+                                          Modifier.size(
+                                              22.dp
+                                          )
                                   )
                               }
                           }
 
 
                           Spacer(
-                              modifier =
-                                  Modifier.size(12.dp)
+                              Modifier.size(
+                                  12.dp
+                              )
                           )
 
 
                           Text(
-
-                              text =
-                                  memory.type,
-
+                              displayType(
+                                  memory.type
+                              ),
                               color =
                                   AppSecondary,
-
                               fontSize =
                                   11.sp,
-
                               fontWeight =
                                   FontWeight.Medium,
-
                               letterSpacing =
                                   1.sp
                           )
 
 
                           Spacer(
-                              modifier =
-                                  Modifier.weight(1f)
+                              Modifier.weight(
+                                  1f
+                              )
                           )
 
 
-                          if (memory.saved) {
+                          if (
+                              memory.saved
+                          ) {
 
                               Icon(
-
-                                  Icons.Outlined.Favorite,
-
+                                  Icons.Filled.Favorite,
                                   contentDescription =
                                       "Saved",
-
                                   tint =
                                       AppText,
-
                                   modifier =
-                                      Modifier.size(19.dp)
+                                      Modifier.size(
+                                          19.dp
+                                      )
                               )
                           }
                       }
 
 
                       Spacer(
-                          modifier =
-                              Modifier.height(12.dp)
+                          Modifier.height(
+                              12.dp
+                          )
                       )
 
 
                       Text(
-
-                          text =
-                              memory.title,
-
+                          memory.title,
                           color =
                               AppText,
-
                           fontSize =
                               18.sp,
-
                           fontWeight =
                               FontWeight.SemiBold
                       )
 
 
                       Spacer(
-                          modifier =
-                              Modifier.height(5.dp)
+                          Modifier.height(
+                              5.dp
+                          )
                       )
 
 
-                      Text(
+                      if (
+                          memory.description
+                              .isNotBlank()
+                      ) {
 
-                          text =
+                          Text(
                               memory.description,
+                              color =
+                                  AppSecondary,
+                              fontSize =
+                                  14.sp,
+                              lineHeight =
+                                  20.sp
+                          )
+                      }
 
-                          color =
-                              AppSecondary,
 
-                          fontSize =
-                              14.sp,
+                      if (
+                          memory.eventDate
+                              .isNotBlank()
+                      ) {
 
-                          lineHeight =
-                              20.sp
-                      )
+                          Spacer(
+                              Modifier.height(
+                                  7.dp
+                              )
+                          )
+
+                          Text(
+                              "${memory.eventDate}  ${memory.eventTime}",
+                              color =
+                                  AppSecondary,
+                              fontSize =
+                                  13.sp
+                          )
+                      }
 
 
                       Spacer(
-                          modifier =
-                              Modifier.height(9.dp)
+                          Modifier.height(
+                              9.dp
+                          )
                       )
 
 
                       Row(
-
                           verticalAlignment =
                               Alignment.CenterVertically
                       ) {
 
+                          Text(
+                              "Open memory",
+                              color =
+                                  AppText,
+                              fontSize =
+                                  14.sp,
+                              fontWeight =
+                                  FontWeight.Medium
+                          )
 
-                          TextButton(
-                              onClick = onClick
+                          Spacer(
+                              Modifier.size(
+                                  5.dp
+                              )
+                          )
+
+                          Icon(
+                              Icons.Outlined.ArrowForward,
+                              contentDescription =
+                                  null,
+                              modifier =
+                                  Modifier.size(
+                                      17.dp
+                                  ),
+                              tint =
+                                  AppText
+                          )
+                      }
+                  }
+              }
+          }
+
+
+          // =====================================================
+          // SEARCH LAYER
+          // =====================================================
+
+          @Composable
+          fun SearchLayer(
+              memories: List<Memory>,
+              recentSearches: List<String>,
+              onClose: () -> Unit,
+              onOpenMemory: (Memory) -> Unit,
+              onSearchUsed: (String) -> Unit
+          ) {
+
+              var query by remember {
+                  mutableStateOf("")
+              }
+
+
+              val results =
+                  memories.filter {
+
+                      it.title.contains(
+                          query,
+                          ignoreCase = true
+                      ) ||
+
+                              it.description.contains(
+                                  query,
+                                  ignoreCase = true
+                              ) ||
+
+                              displayType(
+                                  it.type
+                              ).contains(
+                                  query,
+                                  ignoreCase = true
+                              )
+                  }
+
+
+              Dialog(
+
+                  onDismissRequest =
+                      onClose,
+
+                  properties =
+                      DialogProperties(
+                          usePlatformDefaultWidth =
+                              false
+                      )
+              ) {
+
+                  Surface(
+
+                      modifier =
+                          Modifier.fillMaxSize(),
+
+                      color =
+                          AppBackground
+                  ) {
+
+                      Column {
+
+                          // Top bar
+
+                          Row(
+
+                              modifier =
+                                  Modifier
+                                      .fillMaxWidth()
+                                      .padding(
+                                          horizontal =
+                                              12.dp,
+                                          vertical =
+                                              10.dp
+                                      ),
+
+                              verticalAlignment =
+                                  Alignment.CenterVertically
                           ) {
 
+                              IconButton(
+                                  onClick =
+                                      onClose
+                              ) {
+
+                                  Icon(
+                                      Icons.Outlined.ArrowBack,
+                                      contentDescription =
+                                          "Back"
+                                  )
+                              }
+
+
                               Text(
-
-                                  text =
-                                      "Open memory",
-
+                                  "Search",
                                   color =
-                                      AppText
+                                      AppText,
+                                  fontSize =
+                                      22.sp,
+                                  fontWeight =
+                                      FontWeight.SemiBold
+                              )
+                          }
+
+
+                          Column(
+
+                              modifier =
+                                  Modifier
+                                      .fillMaxWidth()
+                                      .padding(
+                                          horizontal =
+                                              20.dp
+                                      )
+                          ) {
+
+                              OutlinedTextField(
+
+                                  value =
+                                      query,
+
+                                  onValueChange = {
+                                      query =
+                                          it
+                                  },
+
+                                  modifier =
+                                      Modifier.fillMaxWidth(),
+
+                                  singleLine =
+                                      true,
+
+                                  shape =
+                                      RoundedCornerShape(
+                                          18.dp
+                                      ),
+
+                                  leadingIcon = {
+
+                                      Icon(
+                                          Icons.Outlined.Search,
+                                          contentDescription =
+                                              "Search"
+                                      )
+                                  },
+
+                                  trailingIcon = {
+
+                                      if (
+                                          query.isNotEmpty()
+                                      ) {
+
+                                          IconButton(
+                                              onClick = {
+                                                  query =
+                                                      ""
+                                              }
+                                          ) {
+
+                                              Icon(
+                                                  Icons.Outlined.Close,
+                                                  contentDescription =
+                                                      "Clear"
+                                              )
+                                          }
+                                      }
+                                  },
+
+                                  placeholder = {
+                                      Text(
+                                          "Search memories..."
+                                      )
+                                  }
                               )
 
 
                               Spacer(
-                                  modifier =
-                                      Modifier.size(4.dp)
+                                  Modifier.height(
+                                      22.dp
+                                  )
                               )
 
 
-                              Icon(
+                              if (
+                                  query.isBlank()
+                              ) {
 
-                                  Icons.Outlined.ArrowForward,
+                                  Text(
+                                      "Recent Searches",
+                                      color =
+                                          AppText,
+                                      fontSize =
+                                          19.sp,
+                                      fontWeight =
+                                          FontWeight.SemiBold
+                                  )
 
-                                  contentDescription =
-                                      null,
 
-                                  modifier =
-                                      Modifier.size(17.dp)
-                              )
+                                  Spacer(
+                                      Modifier.height(
+                                          12.dp
+                                      )
+                                  )
+
+
+                                  if (
+                                      recentSearches
+                                          .isEmpty()
+                                  ) {
+
+                                      Text(
+                                          "Your recent searches will appear here.",
+                                          color =
+                                              AppSecondary,
+                                          fontSize =
+                                              14.sp
+                                      )
+
+                                  } else {
+
+                                      recentSearches.forEach {
+                                          search ->
+
+                                          Surface(
+
+                                              modifier =
+                                                  Modifier
+                                                      .fillMaxWidth()
+                                                      .clickable {
+
+                                                          query =
+                                                              search
+
+                                                          onSearchUsed(
+                                                              search
+                                                          )
+                                                      },
+
+                                              color =
+                                                  Color.White,
+
+                                              shape =
+                                                  RoundedCornerShape(
+                                                      14.dp
+                                                  )
+                                          ) {
+
+                                              Row(
+
+                                                  modifier =
+                                                      Modifier.padding(
+                                                          15.dp
+                                                      ),
+
+                                                  verticalAlignment =
+                                                      Alignment.CenterVertically
+                                              ) {
+
+                                                  Icon(
+                                                      Icons.Outlined.Search,
+                                                      contentDescription =
+                                                          null,
+                                                      tint =
+                                                          AppSecondary,
+                                                      modifier =
+                                                          Modifier.size(
+                                                              19.dp
+                                                          )
+                                                  )
+
+                                                  Spacer(
+                                                      Modifier.size(
+                                                          10.dp
+                                                      )
+                                                  )
+
+                                                  Text(
+                                                      search,
+                                                      color =
+                                                          AppText
+                                                  )
+                                              }
+                                          }
+
+                                          Spacer(
+                                              Modifier.height(
+                                                  8.dp
+                                              )
+                                          )
+                                      }
+                                  }
+
+                              } else {
+
+                                  Text(
+                                      "Search Results",
+                                      color =
+                                          AppText,
+                                      fontSize =
+                                          19.sp,
+                                      fontWeight =
+                                          FontWeight.SemiBold
+                                  )
+
+
+                                  Spacer(
+                                      Modifier.height(
+                                          10.dp
+                                      )
+                                  )
+
+
+                                  if (
+                                      results.isEmpty()
+                                  ) {
+
+                                      EmptyState(
+                                          title =
+                                              "No memories found",
+                                          subtitle =
+                                              "Try another search."
+                                      )
+
+                                  } else {
+
+                                      results.forEach {
+                                          memory ->
+
+                                          MemoryCard(
+                                              memory =
+                                                  memory,
+
+                                              onClick = {
+
+                                                  onSearchUsed(
+                                                      query
+                                                  )
+
+                                                  onOpenMemory(
+                                                      memory
+                                                  )
+                                              }
+                                          )
+
+                                          Spacer(
+                                              Modifier.height(
+                                                  12.dp
+                                              )
+                                          )
+                                      }
+                                  }
+                              }
                           }
                       }
                   }
@@ -1554,189 +2534,101 @@ jobs:
           }
 
 
-          @Composable
-          fun MemoryDetailDialog(
-
-              memory: Memory,
-
-              onDismiss: () -> Unit,
-
-              onToggleSaved: () -> Unit
-
-          ) {
-
-              AlertDialog(
-
-                  onDismissRequest =
-                      onDismiss,
-
-
-                  title = {
-
-                      Row(
-
-                          verticalAlignment =
-                              Alignment.CenterVertically
-                      ) {
-
-                          Text(
-
-                              text =
-                                  memory.title,
-
-                              modifier =
-                                  Modifier.weight(1f)
-                          )
-
-
-                          IconButton(
-
-                              onClick =
-                                  onDismiss
-
-                          ) {
-
-                              Icon(
-
-                                  Icons.Outlined.Close,
-
-                                  contentDescription =
-                                      "Close"
-                              )
-                          }
-                      }
-                  },
-
-
-                  text = {
-
-                      Column {
-
-                          Text(
-
-                              text =
-                                  memory.type,
-
-                              fontSize =
-                                  11.sp,
-
-                              fontWeight =
-                                  FontWeight.Medium,
-
-                              color =
-                                  AppSecondary,
-
-                              letterSpacing =
-                                  1.sp
-                          )
-
-
-                          Spacer(
-                              modifier =
-                                  Modifier.height(12.dp)
-                          )
-
-
-                          Text(
-
-                              text =
-                                  memory.description,
-
-                              color =
-                                  AppSecondary,
-
-                              lineHeight =
-                                  21.sp
-                          )
-                      }
-                  },
-
-
-                  confirmButton = {
-
-                      TextButton(
-
-                          onClick =
-                              onToggleSaved
-
-                      ) {
-
-                          Icon(
-
-                              imageVector =
-
-                                  if (
-                                      memory.saved
-                                  )
-                                      Icons.Outlined.Favorite
-                                  else
-                                      Icons.Outlined.FavoriteBorder,
-
-                              contentDescription =
-                                  null,
-
-                              modifier =
-                                  Modifier.size(18.dp)
-                          )
-
-
-                          Spacer(
-                              modifier =
-                                  Modifier.size(6.dp)
-                          )
-
-
-                          Text(
-
-                              text =
-
-                                  if (
-                                      memory.saved
-                                  )
-                                      "Unsave"
-                                  else
-                                      "Save"
-                          )
-                      }
-                  }
-              )
-          }
-
+          // =====================================================
+          // ADD MEMORY DIALOG
+          // =====================================================
 
           @Composable
           fun AddMemoryDialog(
-
+              type: String,
               onDismiss: () -> Unit,
-
-              onAdd: (
-                  String,
-                  String,
-                  String
-              ) -> Unit
-
+              onAdd: (Memory) -> Unit
           ) {
 
-              var type by remember {
-                  mutableStateOf("NOTE")
-              }
+              val context =
+                  LocalContext.current
+
 
               var title by remember {
                   mutableStateOf("")
               }
+
 
               var description by remember {
                   mutableStateOf("")
               }
 
 
+              var eventDate by remember {
+                  mutableStateOf("")
+              }
+
+
+              var eventTime by remember {
+                  mutableStateOf("")
+              }
+
+
+              var mediaUri by remember {
+                  mutableStateOf("")
+              }
+
+
+              val picker =
+                  rememberLauncherForActivityResult(
+                      ActivityResultContracts.OpenDocument()
+                  ) { uri: Uri? ->
+
+                      if (
+                          uri != null
+                      ) {
+
+                          try {
+
+                              context.contentResolver
+                                  .takePersistableUriPermission(
+                                      uri,
+                                      Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                  )
+
+                          } catch (
+                              _: Exception
+                          ) {
+                          }
+
+                          mediaUri =
+                              uri.toString()
+                      }
+                  }
+
+
+              val pickerType =
+                  when (type) {
+
+                      "PHOTO" ->
+                          "image/*"
+
+                      "VIDEO" ->
+                          "video/*"
+
+                      "PROMPT" ->
+                          "image/*"
+
+                      else ->
+                          "*/*"
+                  }
+
+
               AlertDialog(
 
                   onDismissRequest =
                       onDismiss,
 
-
                   title = {
-                      Text("Add Memory")
+
+                      Text(
+                          "Add ${displayType(type)}"
+                      )
                   },
 
 
@@ -1750,23 +2642,41 @@ jobs:
                                   title,
 
                               onValueChange = {
-                                  title = it
+                                  title =
+                                      it
                               },
-
-                              label = {
-                                  Text("Title")
-                              },
-
-                              singleLine = true,
 
                               modifier =
-                                  Modifier.fillMaxWidth()
+                                  Modifier.fillMaxWidth(),
+
+                              singleLine =
+                                  true,
+
+                              label = {
+                                  Text(
+                                      when (type) {
+
+                                          "PROMPT" ->
+                                              "Prompt title"
+
+                                          "PHOTO" ->
+                                              "Photo title"
+
+                                          "VIDEO" ->
+                                              "Video title"
+
+                                          else ->
+                                              "Event title"
+                                      }
+                                  }
+                              }
                           )
 
 
                           Spacer(
-                              modifier =
-                                  Modifier.height(10.dp)
+                              Modifier.height(
+                                  10.dp
+                              )
                           )
 
 
@@ -1776,35 +2686,203 @@ jobs:
                                   description,
 
                               onValueChange = {
-                                  description = it
+                                  description =
+                                      it
                               },
+
+                              modifier =
+                                  Modifier.fillMaxWidth(),
+
+                              minLines =
+                                  3,
 
                               label = {
-                                  Text("Description")
-                              },
 
-                              modifier =
-                                  Modifier.fillMaxWidth()
+                                  Text(
+                                      when (type) {
+
+                                          "PROMPT" ->
+                                              "Prompt / Notes"
+
+                                          "PHOTO" ->
+                                              "Photo details"
+
+                                          "VIDEO" ->
+                                              "Video details"
+
+                                          else ->
+                                              "Event notes"
+                                      }
+                                  }
+                              }
                           )
 
 
-                          Spacer(
-                              modifier =
-                                  Modifier.height(10.dp)
-                          )
+                          // -------------------------------
+                          // EVENT
+                          // -------------------------------
+
+                          if (
+                              type ==
+                              "EVENT"
+                          ) {
+
+                              Spacer(
+                                  Modifier.height(
+                                      10.dp
+                                  )
+                              )
 
 
-                          Text(
+                              OutlinedTextField(
 
-                              text =
-                                  "Type: $type",
+                                  value =
+                                      eventDate,
 
-                              color =
-                                  AppSecondary,
+                                  onValueChange = {
+                                      eventDate =
+                                          it
+                                  },
 
-                              fontSize =
-                                  13.sp
-                          )
+                                  modifier =
+                                      Modifier.fillMaxWidth(),
+
+                                  singleLine =
+                                      true,
+
+                                  label = {
+                                      Text(
+                                          "Date"
+                                      )
+                                  },
+
+                                  leadingIcon = {
+                                      Icon(
+                                          Icons.Outlined.CalendarMonth,
+                                          contentDescription =
+                                              null
+                                      )
+                                  }
+                              )
+
+
+                              Spacer(
+                                  Modifier.height(
+                                      10.dp
+                                  )
+                              )
+
+
+                              OutlinedTextField(
+
+                                  value =
+                                      eventTime,
+
+                                  onValueChange = {
+                                      eventTime =
+                                          it
+                                  },
+
+                                  modifier =
+                                      Modifier.fillMaxWidth(),
+
+                                  singleLine =
+                                      true,
+
+                                  label = {
+                                      Text(
+                                          "Time"
+                                      )
+                                  }
+                              )
+                          }
+
+
+                          // -------------------------------
+                          // MEDIA
+                          // -------------------------------
+
+                          if (
+                              type ==
+                                  "PHOTO" ||
+                              type ==
+                                  "VIDEO" ||
+                              type ==
+                                  "PROMPT"
+                          ) {
+
+                              Spacer(
+                                  Modifier.height(
+                                      12.dp
+                                  )
+                              )
+
+
+                              Button(
+
+                                  onClick = {
+
+                                      picker.launch(
+                                          arrayOf(
+                                              pickerType
+                                          )
+                                      )
+                                  },
+
+                                  modifier =
+                                      Modifier.fillMaxWidth()
+                              ) {
+
+                                  Icon(
+                                      when (type) {
+
+                                          "PHOTO" ->
+                                              Icons.Outlined.Image
+
+                                          "VIDEO" ->
+                                              Icons.Outlined.Movie
+
+                                          else ->
+                                              Icons.Outlined.Image
+                                      },
+
+                                      contentDescription =
+                                          null
+                                  )
+
+
+                                  Spacer(
+                                      Modifier.size(
+                                          8.dp
+                                      )
+                                  )
+
+
+                                  Text(
+                                      if (
+                                          mediaUri
+                                              .isBlank()
+                                      ) {
+
+                                          when (type) {
+
+                                              "PHOTO" ->
+                                                  "Choose Photo"
+
+                                              "VIDEO" ->
+                                                  "Choose Video"
+
+                                              else ->
+                                                  "Add Reference Image"
+                                          }
+
+                                      } else {
+
+                                          "Media Selected"
+                                      }
+                                  )
+                              }
+                          }
                       }
                   },
 
@@ -1815,7 +2893,6 @@ jobs:
                           onClick =
                               onDismiss
                       ) {
-
                           Text("Cancel")
                       }
                   },
@@ -1826,36 +2903,331 @@ jobs:
                       Button(
 
                           enabled =
-                              title.isNotBlank(),
+                              title.isNotBlank() &&
+                                  (
+                                      type !=
+                                          "PHOTO" ||
+                                          mediaUri
+                                              .isNotBlank()
+                                      ) &&
+                                  (
+                                      type !=
+                                          "VIDEO" ||
+                                          mediaUri
+                                              .isNotBlank()
+                                      ),
 
                           onClick = {
 
+                              val memory =
+                                  Memory(
+
+                                      id =
+                                          System.currentTimeMillis(),
+
+                                      type =
+                                          type,
+
+                                      title =
+                                          title.trim(),
+
+                                      description =
+                                          description.trim(),
+
+                                      mediaUri =
+                                          mediaUri,
+
+                                      eventDate =
+                                          eventDate.trim(),
+
+                                      eventTime =
+                                          eventTime.trim(),
+
+                                      saved =
+                                          false,
+
+                                      createdAt =
+                                          System.currentTimeMillis()
+                                  )
+
+
                               onAdd(
-
-                                  type,
-
-                                  title.trim(),
-
-                                  description.trim()
+                                  memory
                               )
                           }
-
                       ) {
 
-                          Text("Add")
+                          Text(
+                              "Add Memory"
+                          )
                       }
                   }
               )
           }
 
 
+          // =====================================================
+          // DETAIL DIALOG
+          // =====================================================
+
+          @Composable
+          fun MemoryDetailDialog(
+              memory: Memory,
+              onDismiss: () -> Unit,
+              onToggleSaved: () -> Unit
+          ) {
+
+              val context =
+                  LocalContext.current
+
+
+              AlertDialog(
+
+                  onDismissRequest =
+                      onDismiss,
+
+                  title = {
+
+                      Row(
+                          verticalAlignment =
+                              Alignment.CenterVertically
+                      ) {
+
+                          Text(
+                              memory.title,
+                              modifier =
+                                  Modifier.weight(
+                                      1f
+                                  ),
+                              fontWeight =
+                                  FontWeight.SemiBold
+                          )
+
+
+                          IconButton(
+                              onClick =
+                                  onDismiss
+                          ) {
+
+                              Icon(
+                                  Icons.Outlined.Close,
+                                  contentDescription =
+                                      "Close"
+                              )
+                          }
+                      }
+                  },
+
+
+                  text = {
+
+                      Column {
+
+                          Text(
+                              displayType(
+                                  memory.type
+                              ),
+                              color =
+                                  AppSecondary,
+                              fontSize =
+                                  11.sp,
+                              fontWeight =
+                                  FontWeight.Medium,
+                              letterSpacing =
+                                  1.sp
+                          )
+
+
+                          Spacer(
+                              Modifier.height(
+                                  12.dp
+                              )
+                          )
+
+
+                          if (
+                              memory.description
+                                  .isNotBlank()
+                          ) {
+
+                              Text(
+                                  memory.description,
+                                  color =
+                                      AppSecondary,
+                                  lineHeight =
+                                      21.sp
+                              )
+                          }
+
+
+                          if (
+                              memory.eventDate
+                                  .isNotBlank()
+                          ) {
+
+                              Spacer(
+                                  Modifier.height(
+                                      12.dp
+                                  )
+                              )
+
+                              Text(
+                                  "Date: ${memory.eventDate}",
+                                  color =
+                                      AppText
+                              )
+                          }
+
+
+                          if (
+                              memory.eventTime
+                                  .isNotBlank()
+                          ) {
+
+                              Spacer(
+                                  Modifier.height(
+                                      5.dp
+                                  )
+                              )
+
+                              Text(
+                                  "Time: ${memory.eventTime}",
+                                  color =
+                                      AppText
+                              )
+                          }
+
+
+                          if (
+                              memory.mediaUri
+                                  .isNotBlank()
+                          ) {
+
+                              Spacer(
+                                  Modifier.height(
+                                      14.dp
+                                  )
+                              )
+
+
+                              Button(
+
+                                  onClick = {
+
+                                      try {
+
+                                          val intent =
+                                              Intent(
+                                                  Intent.ACTION_VIEW
+                                              )
+
+                                          intent.setDataAndType(
+
+                                              Uri.parse(
+                                                  memory.mediaUri
+                                              ),
+
+                                              if (
+                                                  memory.type ==
+                                                      "VIDEO"
+                                              ) {
+
+                                                  "video/*"
+
+                                              } else {
+
+                                                  "image/*"
+                                              }
+                                          )
+
+                                          intent.addFlags(
+                                              Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                          )
+
+                                          context.startActivity(
+                                              intent
+                                          )
+
+                                      } catch (
+                                          _: Exception
+                                      ) {
+                                      }
+                                  },
+
+                                  modifier =
+                                      Modifier.fillMaxWidth()
+                              ) {
+
+                                  Text(
+                                      "Open ${if (memory.type == "VIDEO") "Video" else "Photo"}"
+                                  )
+                              }
+                          }
+                      }
+                  },
+
+
+                  confirmButton = {
+
+                      TextButton(
+                          onClick =
+                              onToggleSaved
+                      ) {
+
+                          Icon(
+
+                              imageVector =
+                                  if (
+                                      memory.saved
+                                  ) {
+
+                                      Icons.Filled.Favorite
+
+                                  } else {
+
+                                      Icons.Outlined.FavoriteBorder
+                                  },
+
+                              contentDescription =
+                                  null,
+
+                              modifier =
+                                  Modifier.size(
+                                      18.dp
+                                  )
+                          )
+
+
+                          Spacer(
+                              Modifier.size(
+                                  6.dp
+                              )
+                          )
+
+
+                          Text(
+                              if (
+                                  memory.saved
+                              ) {
+                                  "Unsave"
+                              } else {
+                                  "Save"
+                              }
+                          )
+                      }
+                  }
+              )
+          }
+
+
+          // =====================================================
+          // EMPTY STATE
+          // =====================================================
+
           @Composable
           fun EmptyState(
-
               title: String,
-
               subtitle: String
-
           ) {
 
               Surface(
@@ -1864,74 +3236,70 @@ jobs:
                       Modifier
                           .fillMaxWidth()
                           .padding(
-                              vertical = 30.dp
+                              vertical =
+                                  12.dp
                           ),
 
                   color =
                       Color.White,
 
                   shape =
-                      RoundedCornerShape(18.dp)
+                      RoundedCornerShape(
+                          18.dp
+                      )
               ) {
 
                   Column(
 
                       modifier =
-                          Modifier.padding(28.dp),
+                          Modifier.padding(
+                              28.dp
+                          ),
 
                       horizontalAlignment =
                           Alignment.CenterHorizontally
                   ) {
 
-
                       Icon(
-
                           Icons.Outlined.BookmarkBorder,
-
                           contentDescription =
                               null,
-
-                          modifier =
-                              Modifier.size(32.dp),
-
                           tint =
-                              AppSecondary
+                              AppSecondary,
+                          modifier =
+                              Modifier.size(
+                                  32.dp
+                              )
                       )
 
 
                       Spacer(
-                          modifier =
-                              Modifier.height(12.dp)
+                          Modifier.height(
+                              12.dp
+                          )
                       )
 
 
                       Text(
-
-                          text =
-                              title,
-
-                          fontWeight =
-                              FontWeight.SemiBold,
-
+                          title,
                           color =
-                              AppText
+                              AppText,
+                          fontWeight =
+                              FontWeight.SemiBold
                       )
 
 
                       Spacer(
-                          modifier =
-                              Modifier.height(5.dp)
+                          Modifier.height(
+                              5.dp
+                          )
                       )
 
 
                       Text(
-
-                          text =
-                              subtitle,
-
+                          subtitle,
                           color =
                               AppSecondary,
-
                           fontSize =
                               14.sp
                       )
@@ -1939,8 +3307,341 @@ jobs:
               }
           }
 
+
+          // =====================================================
+          // TYPE NAME
+          // =====================================================
+
+          fun displayType(
+              type: String
+          ): String {
+
+              return when (type) {
+
+                  "PROMPT" ->
+                      "PROMPT"
+
+                  "PHOTO" ->
+                      "PHOTO"
+
+                  "VIDEO" ->
+                      "VIDEO"
+
+                  "EVENT" ->
+                      "EVENT"
+
+                  else ->
+                      type
+              }
+          }
+
+
+          // =====================================================
+          // STORAGE
+          // =====================================================
+
+          private const val PREFS =
+              "memory_vault_storage"
+
+          private const val MEMORIES_KEY =
+              "memories"
+
+          private const val SEARCHES_KEY =
+              "searches"
+
+
+          fun saveMemories(
+              context: Context,
+              memories: List<Memory>
+          ) {
+
+              val array =
+                  JSONArray()
+
+
+              memories.forEach {
+
+                  val obj =
+                      JSONObject()
+
+                  obj.put(
+                      "id",
+                      it.id
+                  )
+
+                  obj.put(
+                      "type",
+                      it.type
+                  )
+
+                  obj.put(
+                      "title",
+                      it.title
+                  )
+
+                  obj.put(
+                      "description",
+                      it.description
+                  )
+
+                  obj.put(
+                      "mediaUri",
+                      it.mediaUri
+                  )
+
+                  obj.put(
+                      "eventDate",
+                      it.eventDate
+                  )
+
+                  obj.put(
+                      "eventTime",
+                      it.eventTime
+                  )
+
+                  obj.put(
+                      "saved",
+                      it.saved
+                  )
+
+                  obj.put(
+                      "createdAt",
+                      it.createdAt
+                  )
+
+                  array.put(
+                      obj
+                  )
+              }
+
+
+              context
+                  .getSharedPreferences(
+                      PREFS,
+                      Context.MODE_PRIVATE
+                  )
+                  .edit()
+                  .putString(
+                      MEMORIES_KEY,
+                      array.toString()
+                  )
+                  .apply()
+          }
+
+
+          fun loadMemories(
+              context: Context
+          ): List<Memory> {
+
+              val prefs =
+                  context.getSharedPreferences(
+                      PREFS,
+                      Context.MODE_PRIVATE
+                  )
+
+
+              val raw =
+                  prefs.getString(
+                      MEMORIES_KEY,
+                      null
+                  )
+
+
+              if (
+                  raw.isNullOrBlank()
+              ) {
+
+                  return emptyList()
+              }
+
+
+              return try {
+
+                  val array =
+                      JSONArray(raw)
+
+                  buildList {
+
+                      for (
+                          i in
+                              0 until
+                              array.length()
+                      ) {
+
+                          val obj =
+                              array.getJSONObject(
+                                  i
+                              )
+
+                          add(
+                              Memory(
+
+                                  id =
+                                      obj.optLong(
+                                          "id"
+                                      ),
+
+                                  type =
+                                      obj.optString(
+                                          "type"
+                                      ),
+
+                                  title =
+                                      obj.optString(
+                                          "title"
+                                      ),
+
+                                  description =
+                                      obj.optString(
+                                          "description"
+                                      ),
+
+                                  mediaUri =
+                                      obj.optString(
+                                          "mediaUri"
+                                      ),
+
+                                  eventDate =
+                                      obj.optString(
+                                          "eventDate"
+                                      ),
+
+                                  eventTime =
+                                      obj.optString(
+                                          "eventTime"
+                                      ),
+
+                                  saved =
+                                      obj.optBoolean(
+                                          "saved"
+                                      ),
+
+                                  createdAt =
+                                      obj.optLong(
+                                          "createdAt"
+                                      )
+                              )
+                          )
+                      }
+                  }
+
+              } catch (
+                  _: Exception
+              ) {
+
+                  emptyList()
+              }
+          }
+
+
+          fun saveSearches(
+              context: Context,
+              searches: List<String>
+          ) {
+
+              val array =
+                  JSONArray()
+
+
+              searches.take(8).forEach {
+                  array.put(it)
+              }
+
+
+              context
+                  .getSharedPreferences(
+                      PREFS,
+                      Context.MODE_PRIVATE
+                  )
+                  .edit()
+                  .putString(
+                      SEARCHES_KEY,
+                      array.toString()
+                  )
+                  .apply()
+          }
+
+
+          fun loadSearches(
+              context: Context
+          ): List<String> {
+
+              val raw =
+                  context
+                      .getSharedPreferences(
+                          PREFS,
+                          Context.MODE_PRIVATE
+                      )
+                      .getString(
+                          SEARCHES_KEY,
+                          null
+                      )
+
+
+              if (
+                  raw.isNullOrBlank()
+              ) {
+
+                  return emptyList()
+              }
+
+
+              return try {
+
+                  val array =
+                      JSONArray(raw)
+
+                  buildList {
+
+                      for (
+                          i in
+                              0 until
+                              array.length()
+                      ) {
+
+                          add(
+                              array.getString(i)
+                          )
+                      }
+                  }
+
+              } catch (
+                  _: Exception
+              ) {
+
+                  emptyList()
+              }
+          }
+
+
+          // =====================================================
+          // ANIMATION HELPER
+          // =====================================================
+
+          private fun AnimatorSet.doOnEnd(
+              action: () -> Unit
+          ) {
+
+              addListener(
+                  object :
+                      AnimatorListenerAdapter() {
+
+                      override fun onAnimationEnd(
+                          animation: Animator
+                      ) {
+
+                          action()
+                      }
+                  }
+              )
+          }
+
           EOF
 
+
+      # ---------------------------------------------------------
+      # BUILD
+      # ---------------------------------------------------------
 
       - name: Generate Gradle wrapper
         uses: gradle/actions/setup-gradle@v4
@@ -1951,6 +3652,10 @@ jobs:
       - name: Build Debug APK
         run: gradle assembleDebug --no-daemon
 
+
+      # ---------------------------------------------------------
+      # UPLOAD APK
+      # ---------------------------------------------------------
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
