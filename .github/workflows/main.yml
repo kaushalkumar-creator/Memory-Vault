@@ -65,8 +65,6 @@ jobs:
 
           cat > settings.gradle.kts <<'EOF'
 
-          import org.gradle.api.initialization.resolve.RepositoriesMode
-
           pluginManagement {
               repositories {
                   google()
@@ -77,7 +75,7 @@ jobs:
 
           dependencyResolutionManagement {
               repositoriesMode.set(
-                  RepositoriesMode.FAIL_ON_PROJECT_REPOS
+                  org.gradle.api.initialization.resolve.RepositoriesMode.FAIL_ON_PROJECT_REPOS
               )
 
               repositories {
@@ -100,17 +98,11 @@ jobs:
           cat > build.gradle.kts <<'EOF'
 
           plugins {
-              id("com.android.application")
-                  version "8.9.2"
-                  apply false
+              id("com.android.application") version "8.9.2" apply false
 
-              id("org.jetbrains.kotlin.android")
-                  version "2.0.21"
-                  apply false
+              id("org.jetbrains.kotlin.android") version "2.0.21" apply false
 
-              id("org.jetbrains.kotlin.plugin.compose")
-                  version "2.0.21"
-                  apply false
+              id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" apply false
           }
 
           EOF
@@ -530,11 +522,8 @@ jobs:
           import androidx.compose.material.icons.outlined.Close
           import androidx.compose.material.icons.outlined.Event
           import androidx.compose.material.icons.outlined.FavoriteBorder
-          import androidx.compose.material.icons.outlined.GridView
-          import androidx.compose.material.icons.outlined.Home
           import androidx.compose.material.icons.outlined.Image
           import androidx.compose.material.icons.outlined.Movie
-          import androidx.compose.material.icons.outlined.Person
           import androidx.compose.material.icons.outlined.Search
 
 
@@ -565,13 +554,13 @@ jobs:
 
           import androidx.compose.ui.Alignment
           import androidx.compose.ui.Modifier
-          import androidx.compose.ui.draw.scale
           import androidx.compose.ui.graphics.Color
           import androidx.compose.ui.graphics.vector.ImageVector
           import androidx.compose.ui.platform.LocalContext
           import androidx.compose.ui.text.font.FontWeight
           import androidx.compose.ui.unit.dp
           import androidx.compose.ui.unit.sp
+          import androidx.compose.ui.draw.scale
           import androidx.compose.ui.window.DialogProperties
 
 
@@ -648,19 +637,16 @@ jobs:
                   val splashScreen =
                       installSplashScreen()
 
-                  var splashFinished =
-                      false
+                  var splashFinished = false
 
                   splashScreen.setKeepOnScreenCondition {
                       !splashFinished
                   }
 
-
                   splashScreen.setOnExitAnimationListener { splashView ->
 
                       val icon =
                           splashView.iconView
-
 
                       val scaleX =
                           ObjectAnimator.ofFloat(
@@ -670,7 +656,6 @@ jobs:
                               0.82f
                           )
 
-
                       val scaleY =
                           ObjectAnimator.ofFloat(
                               icon,
@@ -679,7 +664,6 @@ jobs:
                               0.82f
                           )
 
-
                       val alpha =
                           ObjectAnimator.ofFloat(
                               splashView.view,
@@ -687,7 +671,6 @@ jobs:
                               1f,
                               0f
                           )
-
 
                       AnimatorSet().apply {
 
@@ -707,7 +690,6 @@ jobs:
                       }
                   }
 
-
                   Handler(
                       Looper.getMainLooper()
                   ).postDelayed({
@@ -716,14 +698,11 @@ jobs:
 
                   }, 800)
 
-
                   super.onCreate(
                       savedInstanceState
                   )
 
-
                   setContent {
-
                       MemoryVaultApp()
                   }
               }
@@ -740,31 +719,25 @@ jobs:
               val context =
                   LocalContext.current
 
-
               var selectedTab by remember {
                   mutableIntStateOf(0)
               }
-
 
               var searchOpen by remember {
                   mutableStateOf(false)
               }
 
-
               var addType by remember {
                   mutableStateOf<String?>(null)
               }
-
 
               var selectedMemory by remember {
                   mutableStateOf<Memory?>(null)
               }
 
-
               var appVisible by remember {
                   mutableStateOf(false)
               }
-
 
               var memories by remember {
                   mutableStateOf(
@@ -772,34 +745,26 @@ jobs:
                   )
               }
 
-
               var recentSearches by remember {
                   mutableStateOf(
                       loadSearches(context)
                   )
               }
 
-
               LaunchedEffect(Unit) {
-
                   delay(120)
-
                   appVisible = true
               }
-
 
               fun updateMemories(
                   newList: List<Memory>
               ) {
-
                   memories = newList
-
                   saveMemories(
                       context,
                       newList
                   )
               }
-
 
               val tabs =
                   listOf(
@@ -808,7 +773,6 @@ jobs:
                       "Saved",
                       "Profile"
                   )
-
 
               AnimatedVisibility(
 
@@ -839,8 +803,8 @@ jobs:
                           ) {
 
                               tabs.forEachIndexed {
-                                      index,
-                                      title ->
+                                  index,
+                                  title ->
 
                                   val outlineIcon =
                                       when (index) {
@@ -858,7 +822,6 @@ jobs:
                                               Icons.Outlined.Person
                                       }
 
-
                                   val filledIcon =
                                       when (index) {
 
@@ -874,7 +837,6 @@ jobs:
                                           else ->
                                               Icons.Filled.Person
                                       }
-
 
                                   val iconScale by
                                       animateFloatAsState(
@@ -895,7 +857,6 @@ jobs:
                                           label =
                                               "tabScale"
                                       )
-
 
                                   NavigationBarItem(
 
@@ -1018,7 +979,6 @@ jobs:
                                   )
                               }
 
-
                               1 -> {
 
                                   LibraryScreen(
@@ -1029,7 +989,6 @@ jobs:
                                       }
                                   )
                               }
-
 
                               2 -> {
 
@@ -1045,7 +1004,6 @@ jobs:
                                   )
                               }
 
-
                               else -> {
 
                                   ProfileScreen(
@@ -1057,11 +1015,6 @@ jobs:
                       }
                   }
               }
-
-
-              // =================================================
-              // SEARCH
-              // =================================================
 
               if (searchOpen) {
 
@@ -1104,10 +1057,8 @@ jobs:
                                       )
                                   }
 
-
                               recentSearches =
                                   updated.take(8)
-
 
                               saveSearches(
                                   context,
@@ -1117,11 +1068,6 @@ jobs:
                       }
                   )
               }
-
-
-              // =================================================
-              // ADD MEMORY
-              // =================================================
 
               addType?.let { type ->
 
@@ -1146,11 +1092,6 @@ jobs:
                       }
                   )
               }
-
-
-              // =================================================
-              // MEMORY DETAIL
-              // =================================================
 
               selectedMemory?.let { memory ->
 
@@ -1187,11 +1128,9 @@ jobs:
                                   }
                               }
 
-
                           updateMemories(
                               updated
                           )
-
 
                           selectedMemory =
                               updated.firstOrNull {
@@ -1244,7 +1183,6 @@ jobs:
                       }
                       .take(4)
 
-
               val latestSaved =
                   memories
                       .filter {
@@ -1254,7 +1192,6 @@ jobs:
                           it.createdAt
                       }
                       .take(3)
-
 
               LazyColumn(
 
@@ -1278,7 +1215,6 @@ jobs:
                           Modifier.height(22.dp)
                       )
 
-
                       Text(
                           "Memory Vault",
                           color =
@@ -1289,11 +1225,9 @@ jobs:
                               FontWeight.SemiBold
                       )
 
-
                       Spacer(
                           Modifier.height(4.dp)
                       )
-
 
                       Text(
                           "Keep the things worth remembering.",
@@ -1303,11 +1237,9 @@ jobs:
                               15.sp
                       )
 
-
                       Spacer(
                           Modifier.height(18.dp)
                       )
-
 
                       Surface(
 
@@ -1356,13 +1288,11 @@ jobs:
                                       )
                               )
 
-
                               Spacer(
                                   Modifier.size(
                                       12.dp
                                   )
                               )
-
 
                               Text(
                                   "Search your memories",
@@ -1374,7 +1304,6 @@ jobs:
                           }
                       }
                   }
-
 
                   item {
 
@@ -1407,7 +1336,6 @@ jobs:
                                   )
                           )
 
-
                           TextButton(
                               onClick =
                                   onSeeAll
@@ -1417,7 +1345,6 @@ jobs:
                           }
                       }
                   }
-
 
                   if (recent.isEmpty()) {
 
@@ -1457,13 +1384,11 @@ jobs:
                       }
                   }
 
-
                   item {
 
                       Spacer(
                           Modifier.height(6.dp)
                       )
-
 
                       Text(
 
@@ -1479,7 +1404,6 @@ jobs:
                               FontWeight.SemiBold
                       )
                   }
-
 
                   if (latestSaved.isEmpty()) {
 
@@ -1519,13 +1443,11 @@ jobs:
                       }
                   }
 
-
                   item {
 
                       Spacer(
                           Modifier.height(20.dp)
                       )
-
 
                       Text(
 
@@ -1581,7 +1503,6 @@ jobs:
                           Modifier.height(22.dp)
                       )
 
-
                       Text(
                           "Library",
                           color =
@@ -1592,11 +1513,9 @@ jobs:
                               FontWeight.SemiBold
                       )
 
-
                       Spacer(
                           Modifier.height(4.dp)
                       )
-
 
                       Text(
                           "Choose what you want to store.",
@@ -1606,12 +1525,10 @@ jobs:
                               15.sp
                       )
 
-
                       Spacer(
                           Modifier.height(14.dp)
                       )
                   }
-
 
                   item {
 
@@ -1634,7 +1551,6 @@ jobs:
                       )
                   }
 
-
                   item {
 
                       LibraryTypeCard(
@@ -1655,7 +1571,6 @@ jobs:
                           }
                       )
                   }
-
 
                   item {
 
@@ -1678,7 +1593,6 @@ jobs:
                       )
                   }
 
-
                   item {
 
                       LibraryTypeCard(
@@ -1699,7 +1613,6 @@ jobs:
                           }
                       )
                   }
-
 
                   item {
 
@@ -1806,17 +1719,15 @@ jobs:
                                       Modifier.size(
                                           28.dp
                                       )
-                              }
+                              )
                           }
                       }
-
 
                       Spacer(
                           Modifier.size(
                               16.dp
                           )
                       )
-
 
                       Column(
 
@@ -1841,11 +1752,9 @@ jobs:
                                   FontWeight.SemiBold
                           )
 
-
                           Spacer(
                               Modifier.height(5.dp)
                           )
-
 
                           Text(
 
@@ -1861,7 +1770,6 @@ jobs:
                                   20.sp
                           )
                       }
-
 
                       Icon(
 
@@ -1900,7 +1808,6 @@ jobs:
                           it.createdAt
                       }
 
-
               LazyColumn(
 
                   modifier =
@@ -1923,7 +1830,6 @@ jobs:
                           Modifier.height(22.dp)
                       )
 
-
                       Text(
                           "Saved",
                           color =
@@ -1934,11 +1840,9 @@ jobs:
                               FontWeight.SemiBold
                       )
 
-
                       Spacer(
                           Modifier.height(4.dp)
                       )
-
 
                       Text(
                           "Your saved memories.",
@@ -1948,12 +1852,10 @@ jobs:
                               15.sp
                       )
 
-
                       Spacer(
                           Modifier.height(12.dp)
                       )
                   }
-
 
                   if (saved.isEmpty()) {
 
@@ -2012,7 +1914,6 @@ jobs:
                       it.saved
                   }
 
-
               Column(
 
                   modifier =
@@ -2028,7 +1929,6 @@ jobs:
                   Spacer(
                       Modifier.height(35.dp)
                   )
-
 
                   Surface(
 
@@ -2070,11 +1970,9 @@ jobs:
                       }
                   }
 
-
                   Spacer(
                       Modifier.height(18.dp)
                   )
-
 
                   Text(
 
@@ -2090,11 +1988,9 @@ jobs:
                           FontWeight.SemiBold
                   )
 
-
                   Spacer(
                       Modifier.height(6.dp)
                   )
-
 
                   Text(
 
@@ -2107,11 +2003,9 @@ jobs:
                           15.sp
                   )
 
-
                   Spacer(
                       Modifier.height(30.dp)
                   )
-
 
                   Row(
 
@@ -2138,7 +2032,6 @@ jobs:
                                   1f
                               )
                       )
-
 
                       ProfileStat(
 
@@ -2214,7 +2107,6 @@ jobs:
                               FontWeight.Bold
                       )
 
-
                       Text(
 
                           label,
@@ -2258,7 +2150,6 @@ jobs:
                       else ->
                           Icons.Outlined.AutoAwesome
                   }
-
 
               Card(
 
@@ -2346,13 +2237,11 @@ jobs:
                               }
                           }
 
-
                           Spacer(
                               Modifier.size(
                                   12.dp
                               )
                           )
-
 
                           Text(
 
@@ -2373,13 +2262,11 @@ jobs:
                                   1.sp
                           )
 
-
                           Spacer(
                               Modifier.weight(
                                   1f
                               )
                           )
-
 
                           if (memory.saved) {
 
@@ -2401,11 +2288,9 @@ jobs:
                           }
                       }
 
-
                       Spacer(
                           Modifier.height(12.dp)
                       )
-
 
                       Text(
 
@@ -2421,11 +2306,9 @@ jobs:
                               FontWeight.SemiBold
                       )
 
-
                       Spacer(
                           Modifier.height(5.dp)
                       )
-
 
                       if (
                           memory.description
@@ -2447,7 +2330,6 @@ jobs:
                           )
                       }
 
-
                       if (
                           memory.eventDate
                               .isNotBlank()
@@ -2456,7 +2338,6 @@ jobs:
                           Spacer(
                               Modifier.height(7.dp)
                           )
-
 
                           Text(
 
@@ -2470,11 +2351,9 @@ jobs:
                           )
                       }
 
-
                       Spacer(
                           Modifier.height(9.dp)
                       )
-
 
                       Row(
 
@@ -2497,11 +2376,9 @@ jobs:
                                   FontWeight.Medium
                           )
 
-
                           Spacer(
                               Modifier.size(5.dp)
                           )
-
 
                           Icon(
 
@@ -2549,7 +2426,6 @@ jobs:
                   mutableStateOf("")
               }
 
-
               val results =
                   memories.filter {
 
@@ -2570,7 +2446,6 @@ jobs:
                           ignoreCase = true
                       )
                   }
-
 
               Dialog(
 
@@ -2628,7 +2503,6 @@ jobs:
                                   )
                               }
 
-
                               Text(
 
                                   "Search",
@@ -2643,7 +2517,6 @@ jobs:
                                       FontWeight.SemiBold
                               )
                           }
-
 
                           Column(
 
@@ -2723,13 +2596,11 @@ jobs:
                                   }
                               )
 
-
                               Spacer(
                                   Modifier.height(
                                       22.dp
                                   )
                               )
-
 
                               if (query.isBlank()) {
 
@@ -2747,13 +2618,11 @@ jobs:
                                           FontWeight.SemiBold
                                   )
 
-
                                   Spacer(
                                       Modifier.height(
                                           12.dp
                                       )
                                   )
-
 
                                   if (
                                       recentSearches
@@ -2829,13 +2698,11 @@ jobs:
                                                           )
                                                   )
 
-
                                                   Spacer(
                                                       Modifier.size(
                                                           10.dp
                                                       )
                                                   )
-
 
                                                   Text(
 
@@ -2846,7 +2713,6 @@ jobs:
                                                   )
                                               }
                                           }
-
 
                                           Spacer(
                                               Modifier.height(
@@ -2872,13 +2738,11 @@ jobs:
                                           FontWeight.SemiBold
                                   )
 
-
                                   Spacer(
                                       Modifier.height(
                                           10.dp
                                       )
                                   )
-
 
                                   if (
                                       results.isEmpty()
@@ -2915,7 +2779,6 @@ jobs:
                                               }
                                           )
 
-
                                           Spacer(
                                               Modifier.height(
                                                   12.dp
@@ -2950,31 +2813,25 @@ jobs:
               val context =
                   LocalContext.current
 
-
               var title by remember {
                   mutableStateOf("")
               }
-
 
               var description by remember {
                   mutableStateOf("")
               }
 
-
               var eventDate by remember {
                   mutableStateOf("")
               }
-
 
               var eventTime by remember {
                   mutableStateOf("")
               }
 
-
               var mediaUri by remember {
                   mutableStateOf("")
               }
-
 
               val picker =
                   rememberLauncherForActivityResult(
@@ -3003,12 +2860,10 @@ jobs:
                           ) {
                           }
 
-
                           mediaUri =
                               uri.toString()
                       }
                   }
-
 
               val pickerType =
                   when (type) {
@@ -3026,7 +2881,6 @@ jobs:
                           "*/*"
                   }
 
-
               AlertDialog(
 
                   onDismissRequest =
@@ -3038,7 +2892,6 @@ jobs:
                           "Add ${displayType(type)}"
                       )
                   },
-
 
                   text = {
 
@@ -3082,13 +2935,11 @@ jobs:
                               }
                           )
 
-
                           Spacer(
                               Modifier.height(
                                   10.dp
                               )
                           )
-
 
                           OutlinedTextField(
 
@@ -3128,7 +2979,6 @@ jobs:
                               }
                           )
 
-
                           if (
                               type ==
                               "EVENT"
@@ -3139,7 +2989,6 @@ jobs:
                                       10.dp
                                   )
                               )
-
 
                               OutlinedTextField(
 
@@ -3176,13 +3025,11 @@ jobs:
                                   }
                               )
 
-
                               Spacer(
                                   Modifier.height(
                                       10.dp
                                   )
                               )
-
 
                               OutlinedTextField(
 
@@ -3209,7 +3056,6 @@ jobs:
                               )
                           }
 
-
                           if (
                               type ==
                                   "PHOTO" ||
@@ -3224,7 +3070,6 @@ jobs:
                                       12.dp
                                   )
                               )
-
 
                               Button(
 
@@ -3260,13 +3105,11 @@ jobs:
                                           null
                                   )
 
-
                                   Spacer(
                                       Modifier.size(
                                           8.dp
                                       )
                                   )
-
 
                                   Text(
 
@@ -3297,7 +3140,6 @@ jobs:
                       }
                   },
 
-
                   dismissButton = {
 
                       TextButton(
@@ -3310,7 +3152,6 @@ jobs:
                           )
                       }
                   },
-
 
                   confirmButton = {
 
@@ -3333,7 +3174,6 @@ jobs:
 
                               val now =
                                   System.currentTimeMillis()
-
 
                               val memory =
                                   Memory(
@@ -3365,7 +3205,6 @@ jobs:
                                       createdAt =
                                           now
                                   )
-
 
                               onAdd(
                                   memory
@@ -3403,11 +3242,9 @@ jobs:
               val context =
                   LocalContext.current
 
-
               var showDeleteConfirm by remember {
                   mutableStateOf(false)
               }
-
 
               AlertDialog(
 
@@ -3436,7 +3273,6 @@ jobs:
                                   FontWeight.SemiBold
                           )
 
-
                           IconButton(
                               onClick =
                                   onDismiss
@@ -3452,7 +3288,6 @@ jobs:
                           }
                       }
                   },
-
 
                   text = {
 
@@ -3477,13 +3312,11 @@ jobs:
                                   1.sp
                           )
 
-
                           Spacer(
                               Modifier.height(
                                   12.dp
                               )
                           )
-
 
                           if (
                               memory.description
@@ -3502,7 +3335,6 @@ jobs:
                               )
                           }
 
-
                           if (
                               memory.eventDate
                                   .isNotBlank()
@@ -3514,7 +3346,6 @@ jobs:
                                   )
                               )
 
-
                               Text(
 
                                   "Date: ${memory.eventDate}",
@@ -3523,7 +3354,6 @@ jobs:
                                       AppText
                               )
                           }
-
 
                           if (
                               memory.eventTime
@@ -3536,7 +3366,6 @@ jobs:
                                   )
                               )
 
-
                               Text(
 
                                   "Time: ${memory.eventTime}",
@@ -3545,7 +3374,6 @@ jobs:
                                       AppText
                               )
                           }
-
 
                           if (
                               memory.mediaUri
@@ -3558,7 +3386,6 @@ jobs:
                                   )
                               )
 
-
                               Button(
 
                                   onClick = {
@@ -3569,7 +3396,6 @@ jobs:
                                               Intent(
                                                   Intent.ACTION_VIEW
                                               )
-
 
                                           intent.setDataAndType(
 
@@ -3590,12 +3416,10 @@ jobs:
                                               }
                                           )
 
-
                                           intent.addFlags(
                                               Intent
                                                   .FLAG_GRANT_READ_URI_PERMISSION
                                           )
-
 
                                           context.startActivity(
                                               intent
@@ -3628,13 +3452,11 @@ jobs:
                               }
                           }
 
-
                           Spacer(
                               Modifier.height(
                                   12.dp
                               )
                           )
-
 
                           TextButton(
 
@@ -3654,7 +3476,6 @@ jobs:
                           }
                       }
                   },
-
 
                   confirmButton = {
 
@@ -3686,13 +3507,11 @@ jobs:
                                   )
                           )
 
-
                           Spacer(
                               Modifier.size(
                                   6.dp
                               )
                           )
-
 
                           Text(
 
@@ -3710,7 +3529,6 @@ jobs:
                       }
                   }
               )
-
 
               if (showDeleteConfirm) {
 
@@ -3839,13 +3657,11 @@ jobs:
                               )
                       )
 
-
                       Spacer(
                           Modifier.height(
                               12.dp
                           )
                       )
-
 
                       Text(
 
@@ -3858,13 +3674,11 @@ jobs:
                               FontWeight.SemiBold
                       )
 
-
                       Spacer(
                           Modifier.height(
                               5.dp
                           )
                       )
-
 
                       Text(
 
@@ -3934,72 +3748,60 @@ jobs:
               val array =
                   JSONArray()
 
-
               memories.forEach {
 
                   val obj =
                       JSONObject()
-
 
                   obj.put(
                       "id",
                       it.id
                   )
 
-
                   obj.put(
                       "type",
                       it.type
                   )
-
 
                   obj.put(
                       "title",
                       it.title
                   )
 
-
                   obj.put(
                       "description",
                       it.description
                   )
-
 
                   obj.put(
                       "mediaUri",
                       it.mediaUri
                   )
 
-
                   obj.put(
                       "eventDate",
                       it.eventDate
                   )
-
 
                   obj.put(
                       "eventTime",
                       it.eventTime
                   )
 
-
                   obj.put(
                       "saved",
                       it.saved
                   )
-
 
                   obj.put(
                       "createdAt",
                       it.createdAt
                   )
 
-
                   array.put(
                       obj
                   )
               }
-
 
               context
 
@@ -4031,13 +3833,11 @@ jobs:
                       Context.MODE_PRIVATE
                   )
 
-
               val raw =
                   prefs.getString(
                       MEMORIES_KEY,
                       null
                   )
-
 
               if (
                   raw.isNullOrBlank()
@@ -4046,12 +3846,10 @@ jobs:
                   return emptyList()
               }
 
-
               return try {
 
                   val array =
                       JSONArray(raw)
-
 
                   buildList {
 
@@ -4065,7 +3863,6 @@ jobs:
                               array.getJSONObject(
                                   i
                               )
-
 
                           add(
 
@@ -4144,14 +3941,12 @@ jobs:
               val array =
                   JSONArray()
 
-
               searches
                   .take(8)
                   .forEach {
 
                       array.put(it)
                   }
-
 
               context
 
@@ -4191,7 +3986,6 @@ jobs:
                           null
                       )
 
-
               if (
                   raw.isNullOrBlank()
               ) {
@@ -4199,12 +3993,10 @@ jobs:
                   return emptyList()
               }
 
-
               return try {
 
                   val array =
                       JSONArray(raw)
-
 
                   buildList {
 
