@@ -99,9 +99,7 @@ jobs:
 
           plugins {
               id("com.android.application") version "8.9.2" apply false
-
               id("org.jetbrains.kotlin.android") version "2.0.21" apply false
-
               id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" apply false
           }
 
@@ -483,7 +481,6 @@ jobs:
           import androidx.compose.animation.core.tween
 
 
-          import androidx.compose.foundation.background
           import androidx.compose.foundation.clickable
           import androidx.compose.foundation.layout.Arrangement
           import androidx.compose.foundation.layout.Box
@@ -522,8 +519,11 @@ jobs:
           import androidx.compose.material.icons.outlined.Close
           import androidx.compose.material.icons.outlined.Event
           import androidx.compose.material.icons.outlined.FavoriteBorder
+          import androidx.compose.material.icons.outlined.GridView
+          import androidx.compose.material.icons.outlined.Home
           import androidx.compose.material.icons.outlined.Image
           import androidx.compose.material.icons.outlined.Movie
+          import androidx.compose.material.icons.outlined.Person
           import androidx.compose.material.icons.outlined.Search
 
 
@@ -531,7 +531,6 @@ jobs:
           import androidx.compose.material3.Button
           import androidx.compose.material3.Card
           import androidx.compose.material3.CardDefaults
-          import androidx.compose.material3.Dialog
           import androidx.compose.material3.Icon
           import androidx.compose.material3.IconButton
           import androidx.compose.material3.NavigationBar
@@ -561,17 +560,18 @@ jobs:
           import androidx.compose.ui.unit.dp
           import androidx.compose.ui.unit.sp
           import androidx.compose.ui.draw.scale
+          import androidx.compose.ui.window.Dialog
           import androidx.compose.ui.window.DialogProperties
 
 
           import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 
+          import kotlinx.coroutines.delay
+
+
           import org.json.JSONArray
           import org.json.JSONObject
-
-
-          import kotlinx.coroutines.delay
 
 
           // =====================================================
@@ -780,7 +780,8 @@ jobs:
 
                   enter =
                       fadeIn(
-                          tween(350)
+                          animationSpec =
+                              tween(350)
                       )
 
               ) {
@@ -925,7 +926,8 @@ jobs:
 
                               (
                                   fadeIn(
-                                      tween(220)
+                                      animationSpec =
+                                          tween(220)
                                   ) +
                                   slideInVertically(
                                       initialOffsetY = {
@@ -936,7 +938,8 @@ jobs:
                                   )
                               ) togetherWith (
                                   fadeOut(
-                                      tween(160)
+                                      animationSpec =
+                                          tween(160)
                                   ) +
                                   slideOutVertically(
                                       targetOffsetY = {
@@ -1719,7 +1722,7 @@ jobs:
                                       Modifier.size(
                                           28.dp
                                       )
-                              )
+                              }
                           }
                       }
 
@@ -3804,19 +3807,15 @@ jobs:
               }
 
               context
-
                   .getSharedPreferences(
                       PREFS,
                       Context.MODE_PRIVATE
                   )
-
                   .edit()
-
                   .putString(
                       MEMORIES_KEY,
                       array.toString()
                   )
-
                   .apply()
           }
 
@@ -3949,19 +3948,15 @@ jobs:
                   }
 
               context
-
                   .getSharedPreferences(
                       PREFS,
                       Context.MODE_PRIVATE
                   )
-
                   .edit()
-
                   .putString(
                       SEARCHES_KEY,
                       array.toString()
                   )
-
                   .apply()
           }
 
@@ -3975,12 +3970,10 @@ jobs:
               val raw =
 
                   context
-
                       .getSharedPreferences(
                           PREFS,
                           Context.MODE_PRIVATE
                       )
-
                       .getString(
                           SEARCHES_KEY,
                           null
