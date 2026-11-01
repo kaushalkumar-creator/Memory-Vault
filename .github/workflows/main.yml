@@ -1,0 +1,28 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - name: System dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf \
+            libtool pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev
+      - name: Install Buildozer
+        run: pip install --upgrade buildozer legacy-cgi setuptools cython==0.29.34
+      - name: Build debug APK
+        run: buildozer -v android debug
+      - uses: actions/upload-artifact@v7
+        with:
+          name: MemoryVault-apk
+          path: bin/*.apk
