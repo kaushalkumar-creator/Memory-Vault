@@ -12,6 +12,7 @@ from kivy.metrics import dp, sp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.filechooser import FileChooserListView
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.uix.label import Label
@@ -65,10 +66,29 @@ Builder.load_string('''
             pos: self.pos
             size: self.size
             radius: [dp(10)]
+
+<Fab>:
+    background_normal: ''
+    background_down: ''
+    background_color: 0, 0, 0, 0
+    color: 1, 1, 1, 1
+    font_size: sp(30)
+    size_hint: None, None
+    size: dp(56), dp(56)
+    canvas.before:
+        Color:
+            rgba: 0.20, 0.36, 0.52, 1
+        Ellipse:
+            pos: self.pos
+            size: self.size
 ''')
 
 
 class Card(BoxLayout):
+    pass
+
+
+class Fab(Button):
     pass
 
 
@@ -142,7 +162,7 @@ class MemoryVaultApp(App):
         self.img_dir = os.path.join(self.user_data_dir, 'images')
         os.makedirs(self.img_dir, exist_ok=True)
         self.page = 'home'
-        self.section = 'prompt'
+        self.section = None
         self.query = ''
 
         root = BoxLayout(orientation='vertical', padding=dp(10), spacing=dp(8))
@@ -150,17 +170,12 @@ class MemoryVaultApp(App):
         top = BoxLayout(size_hint_y=None, height=dp(44), spacing=dp(8))
         self.search = field('Search everything', bg=WHITE)
         self.search.bind(text=self.on_search)
-        add = btn('+', lambda b: self.add_new(), primary=True, height=44)
-        add.size_hint_x = None
-        add.width = dp(48)
-        add.font_size = sp(22)
         self.top = top
         top.add_widget(self.search)
-        top.add_widget(add)
         root.add_widget(top)
 
         self.list = GridLayout(cols=1, size_hint_y=None, spacing=dp(10),
-                               padding=[0, 0, 0, dp(10)])
+                               padding=[0, 0, 0, dp(80)])
         self.list.bind(minimum_height=self.list.setter('height'))
         sv = ScrollView()
         sv.add_widget(self.list)
@@ -178,8 +193,14 @@ class MemoryVaultApp(App):
             bar.add_widget(t)
         root.add_widget(bar)
 
+        self.fab = Fab(text='+', pos_hint={'right': 0.96}, y=dp(78))
+        self.fab.bind(on_release=lambda w: self.add_new())
+
+        layout = FloatLayout()
+        layout.add_widget(root)
+        layout.add_widget(self.fab)
         self.refresh()
-        return root
+        return layout
 
     def on_start(self):
         if platform == 'android':
@@ -198,6 +219,8 @@ class MemoryVaultApp(App):
 
     def set_page(self, page):
         self.page = page
+        if page == 'library':
+            self.section = None
         self.search.text = ''
         self.query = ''
         show = page != 'profile'
@@ -206,7 +229,7 @@ class MemoryVaultApp(App):
         self.top.disabled = not show
         self.refresh()
 
-    def set_section(self, key):
+    def open_section(self, key):
         self.section = key
         self.refresh()
 
@@ -214,17 +237,33 @@ class MemoryVaultApp(App):
         self.query = text
         self.refresh()
 
-    def section_bar(self):
-        row = BoxLayout(size_hint_y=None, height=dp(38), spacing=dp(4))
-        for key, name in SECTIONS:
-            b = btn(name, lambda w, k=key: self.set_section(k),
-                    primary=(key == self.section), height=38)
-            b.font_size = sp(13)
-            row.add_widget(b)
+    def library_row(self, key, name):
+        b = Button(text='%s   (%d)' % (name, self.db.count(key)),
+                   size_hint_y=None, height=dp(56), font_size=sp(16),
+                   halign='left', valign='middle', padding_x=dp(12),
+                   background_normal='', background_down='',
+                   background_color=WHITE, color=TEXT)
+        b.bind(size=lambda w, v: setattr(w, 'text_size', (v[0] - dp(24), v[1])))
+        b.bind(on_release=lambda w, k=key: self.open_section(k))
+        return b
+
+    def section_header(self):
+        row = BoxLayout(size_hint_y=None, height=dp(40), spacing=dp(8))
+        back = btn('< Back', lambda w: self.open_section(None), height=40)
+        back.size_hint_x = None
+        back.width = dp(90)
+        title = Label(text=dict(SECTIONS)[self.section], font_size=sp(18), bold=True,
+                      color=TEXT, halign='left', valign='middle')
+        title.bind(size=lambda w, v: setattr(w, 'text_size', v))
+        row.add_widget(back)
+        row.add_widget(title)
         return row
 
     def refresh(self):
         self.list.clear_widgets()
+        show_fab = self.page == 'home' or (self.page == 'library' and bool(self.section))
+        self.fab.opacity = 1 if show_fab else 0
+        self.fab.disabled = not show_fab
         if self.page == 'profile':
             self.render_profile()
             return
@@ -235,12 +274,16 @@ class MemoryVaultApp(App):
             name = self.db.get_profile().get('name', '')
             self.list.add_widget(lbl(('Hello, ' + name) if name else 'Hello', 20, TEXT, True))
             self.list.add_widget(lbl('Recent memories', 13, MUTED))
-            rows = self.db.get_all(limit=10)
+            rows = self.db.get_all(limit=5)
             empty = 'No memories yet. Tap + to save your first one.'
         elif self.page == 'library':
-            self.list.add_widget(self.section_bar())
+            if not self.section:
+                for key, name in SECTIONS:
+                    self.list.add_widget(self.library_row(key, name))
+                return
+            self.list.add_widget(self.section_header())
             rows = self.db.get_all(self.section, by_event_date=(self.section == 'event'))
-            empty = 'Nothing in this section yet. Tap + to add.'
+            empty = 'Nothing here yet. Tap + to add.'
         else:
             rows = self.db.get_all(saved_only=True)
             empty = 'No saved memories yet. Tap Save on any memory.'
@@ -250,12 +293,12 @@ class MemoryVaultApp(App):
             self.list.add_widget(self.make_card(r, bool(self.query) or self.page != 'library'))
 
     def add_new(self):
-        if self.page == 'library':
+        if self.page == 'library' and self.section:
             self.open_form(kind=self.section)
             return
         box = BoxLayout(orientation='vertical', spacing=dp(8), padding=dp(10))
-        popup = make_popup('Add memory', box, (0.85, 0.55))
-        for key, name in SECTIONS:
+        popup = make_popup('What do you want to save?', box, (0.85, 0.55))
+        for key in ('image', 'video', 'prompt', 'event'):
             box.add_widget(btn(KIND_NAME[key],
                                lambda w, k=key: (popup.dismiss(), self.open_form(kind=k)),
                                height=48))
